@@ -1,60 +1,36 @@
 #!env Rscript
-
-#### Q1 ####
-
-# import samr library
 library(matrixStats)
 library(impute)
 library(samr) 
-library(gplots)
 library(corrplot)
 
-pdf("Q2_summary.pdf")
+pdf("Q3_summary.pdf")
 attach(mtcars,warn.conflicts = FALSE)
-par(mfrow=c(1,3))
+layout(matrix(c(1,2,5,3,3,4), 2, 3, byrow = TRUE))
 
-# init random number generator (RNG)
-set.seed(100)   
+# load data
+x <- read.delim("obeses_temoins.txt")
 
-# init artifical dataset, niveau d'expression, 20 patients, 1000 genes for each
-x<-matrix(rnorm(1000*20),ncol=20)
+# header list
+figList <- colnames(x)
+obeses  <- figList[1:25]
+temoins <- figList[26:35]
+geneid  <- row.names(x)
+# correlation
+corrplot(cor(x[obeses]),type="upper", order="hclust", tl.col="black", tl.srt=45, method="ellipse")
+corrplot(cor(x[temoins]),type="upper", order="hclust", tl.col="black", tl.srt=45, method="pie")
 
-# random index
-dd<-sample(1:1000,size=100)
-
-# noise
-u<-matrix(2*rnorm(100),ncol=10,nrow=100)
-
-# drip random noise
-x[dd,11:20]<-x[dd,11:20]+u
-
-# class label
-y<-c(rep(1,10),rep(2,10))
-
-# encapsulate data
-data=list(x=x,y=y,geneid=as.character(1:nrow(x)),genenames=paste("g",as.character(1:nrow(x)),sep=""), logged2=TRUE)
-
-# Significance analysis of microarrays
-# resp.type=c("Quantitative","Two class unpaired","Survival","Multiclass", "One class", "Two class paired",
-#     "Two class unpaired timecourse", "One class timecourse", "Two class paired timecourse", "Pattern discovery"),
-samr.obj<-samr(data, resp.type="Two class unpaired", nperms=100)
-
-delta=.4
-
-# plot
+# samr
+delta = 0.6756
+data = list(x=as.matrix(x),y=c(rep(1,25),rep(2,10)),geneid=geneid, genenames=geneid, logged2=TRUE)
+samr.obj <- samr(data, resp.type="Two class unpaired", nperms=300)
 samr.plot(samr.obj,delta)
-
-# Computes tables of thresholds, cutpoints and corresponding False Discovery rates for SAM 
 delta.table <- samr.compute.delta.table(samr.obj)
-
-# Computes significant genes table, starting with samr object "samr.obj" and delta.table "delta.table"
 siggenes.table <- samr.compute.siggenes.table(samr.obj, delta, data, delta.table)
 
-# FDR (or 1-power) and FNR (or 1-type 1 error) from samr.assess.samplesize
-# samr.assess.samplesize.obj <- samr.assess.samplesize(samr.obj, data, log2(1.5))
-# samr.assess.samplesize.plot(samr.assess.samplesize.obj)
+write.table(siggenes.table$genes.up,'obeses_temoins_sig_up.txt',sep='\t',quote=F)
+write.table(siggenes.table$genes.lo,'obeses_temoins_sig_lo.txt',sep='\t',quote=F)
 
-#### Q2 ####
 pv <- c()
 for ( i in 1:nrow(x) ) {
     pv <- c(pv, t.test(x[i,1:10],x[i,11:20])$p.value)
@@ -72,12 +48,12 @@ boxplot(adjust[["holm"]],adjust[["hochberg"]],adjust[["hommel"]],adjust[["bonfer
 axis(1, labels = FALSE)
 text(x = seq_along(mlist), labels = mlist, y = par("usr")[3], srt = 45, adj = 1, xpd = TRUE)
 
-mtx  <- matrix(nrow=8,ncol=1000)
+mtx  <- matrix(nrow=8,ncol=nrow(x))
 for ( m in 1:length(mlist) ) {
-    mtx[m,1:1000]  <- adjust[[mlist[m]]]
+    mtx[m,1:nrow(x)]  <- adjust[[mlist[m]]]
 }
+
 rownames(mtx) <- mlist
-# heatmap.2(mtx,col=redblue(16), scale="column", Colv=FALSE, trace='none')
 corrplot(cor(t(mtx)),type="upper", order="hclust", tl.col="black", tl.srt=45, method="pie")
 
 sseuil <- 0.05
@@ -87,6 +63,8 @@ bonfIDS <- adjust[["bonferroni"]] < sseuil
 commIDS <- byIDS & bonfIDS
 byOnlyIDS <- byIDS & !commIDS
 bonfOnlyIDS <- bonfIDS & !commIDS
+
+print(summary(delta.table))
 
 print("common genes (BY and bonferroni): ")
 print(data$genenames[commIDS])
@@ -109,3 +87,4 @@ print("common genes (samr and bonferroni): ")
 print(intersect(samrGIDs,bonfGIDs))
 
 dev.off()
+
