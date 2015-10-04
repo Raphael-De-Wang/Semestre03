@@ -1,0 +1,195 @@
+
+  45 Populations
+
+Neighbor-Joining/UPGMA method version 3.696
+
+
+ Neighbor-joining method
+
+ Negative branch lengths allowed
+
+
+  +--Mus_muscul
+  ! 
+  !         +-----Ornithorhy
+  !         ! 
+  !       +-9   +Didelphis_
+  !       ! ! +-2 
+  !       ! ! ! +Monodelphi
+  !       ! +-4 
+  !       !   ! +Macropus_e
+  !       !   +-3 
+  !       !     +-Trichosuru
+  !       !  
+  1------15     +-Cavia_porc
+  !       !  +-12  
+  !       !  !  +Heteroceph
+  !       !  !  
+  !       !  !  +-Oryctolagu
+  !       !  !  !  
+  !       !  !  !              +--Canis_lupu
+  !       !  !  !           +-14  
+  !       !  !  !           !  !  +-Felis_catu
+  !       +-19  !           !  +-13  
+  !          !  !           !     !  +Mustela_pu
+  !          !  !           !     +-10  
+  !          !  !           !        +-Ailuropoda
+  !          !  !        +-21  
+  !          !  !        !  !      +Reevesi   
+  !          !  !        !  !    +-5 
+  !          !  !        !  !    ! +Muntjak   
+  !          +-23        !  !  +-7 
+  !             !     +-22  !  ! ! +Bos_taurus
+  !             !     !  !  +-16 +-6 
+  !             !     !  !     !   +Ovis_aries
+  !             !     !  !     !  
+  !             !  +-24  !     +-Sus_scrofa
+  !             !  !  !  !  
+  !             !  !  !  +--Dasypus_no
+  !             !  !  !  
+  !             !  !  !  +---Loxodonta_
+  !             !  !  +-20  
+  !             !  !     +--Atelerix_a
+  !             !  !  
+  !             !  !        +---Carollia_p
+  !             +-25     +-18  
+  !                !     !  +--Rhinolophu
+  !                !  +-26  
+  !                !  !  !  +-Otolemur_g
+  !                !  !  +-17  
+  !                !  !     !  +Microcebus
+  !                !  !     +-11  
+  !                !  !        ! +Lemur_catt
+  !                !  !        +-8 
+  !                +-27          +Eulemur_ma
+  !                   !  
+  !                   !  +-Equus_caba
+  !                   !  !  
+  !                   !  !     +Ateles_geo
+  !                   !  !     !  
+  !                   !  !     !        +Callicebus
+  !                   !  !  +-32     +-29  
+  !                   +-28  !  !  +-30  +Saimiri_bo
+  !                      !  !  !  !  !  
+  !                      !  !  +-31  +Callithrix
+  !                      !  !     !  
+  !                      !  !     +Aotus_nanc
+  !                      !  !  
+  !                      +-33        +Pongo_abel
+  !                         !     +-36  
+  !                         !     !  !  +Gorilla_go
+  !                         !     !  +-35  
+  !                         !  +-37     !  +Homo_sapie
+  !                         !  !  !     +-34  
+  !                         !  !  !        +Pan_troglo
+  !                         !  !  !  
+  !                         +-38  +Nomascus_l
+  !                            !  
+  !                            !  +Colobus_gu
+  !                            +-39  
+  !                               !  +Chlorocebu
+  !                               +-40  
+  !                                  !  +Papio_anub
+  !                                  +-41  
+  !                                     !  +Macaca_mul
+  !                                     +-42  
+  !                                        !  +Macaca_nem
+  !                                        +-43  
+  !                                           +Macaca_fas
+  ! 
+  +--Rattus_nor
+
+
+remember: this is an unrooted tree!
+
+Between        And            Length
+-------        ---            ------
+   1          Mus_muscul      0.04689
+   1            15            0.13210
+  15             9            0.01546
+   9          Ornithorhy      0.10360
+   9             4            0.04177
+   4             2            0.01316
+   2          Didelphis_      0.01728
+   2          Monodelphi      0.02171
+   4             3            0.01082
+   3          Macropus_e      0.02272
+   3          Trichosuru      0.02845
+  15            19            0.01266
+  19            12            0.01487
+  12          Cavia_porc      0.03538
+  12          Heteroceph      0.02479
+  19            23            0.00539
+  23          Oryctolagu      0.03984
+  23            25            0.00229
+  25            24            0.00217
+  24            22            0.00046
+  22            21            0.00071
+  21            14            0.01758
+  14          Canis_lupu      0.04413
+  14            13            0.00115
+  13          Felis_catu      0.02987
+  13            10            0.00573
+  10          Mustela_pu      0.01865
+  10          Ailuropoda      0.02975
+  21            16            0.01480
+  16             7            0.03267
+   7             5            0.00897
+   5          Reevesi         0.00096
+   5          Muntjak         0.00107
+   7             6            0.00128
+   6          Bos_taurus      0.00834
+   6          Ovis_aries      0.00801
+  16          Sus_scrofa      0.02472
+  22          Dasypus_no      0.04988
+  24            20            0.00195
+  20          Loxodonta_      0.05279
+  20          Atelerix_a      0.04466
+  25            27            0.00116
+  27            26            0.00030
+  26            18            0.00968
+  18          Carollia_p      0.07000
+  18          Rhinolophu      0.05758
+  26            17            0.01230
+  17          Otolemur_g      0.02776
+  17            11            0.01021
+  11          Microcebus      0.01078
+  11             8            0.01935
+   8          Lemur_catt     -0.00113
+   8          Eulemur_ma      0.00987
+  27            28            0.00159
+  28          Equus_caba      0.02387
+  28            33            0.02023
+  33            32            0.01179
+  32          Ateles_geo      0.01022
+  32            31            0.00062
+  31            30            0.00014
+  30            29            0.00088
+  29          Callicebus      0.00636
+  29          Saimiri_bo      0.00652
+  30          Callithrix      0.00384
+  31          Aotus_nanc      0.00457
+  33            38            0.00599
+  38            37            0.00323
+  37            36            0.00100
+  36          Pongo_abel      0.00655
+  36            35            0.00156
+  35          Gorilla_go      0.00139
+  35            34            0.00063
+  34          Homo_sapie      0.00203
+  34          Pan_troglo      0.00134
+  37          Nomascus_l      0.00611
+  38            39            0.00553
+  39          Colobus_gu      0.00791
+  39            40            0.00091
+  40          Chlorocebu      0.00205
+  40            41            0.00066
+  41          Papio_anub      0.00069
+  41            42            0.00066
+  42          Macaca_mul      0.00002
+  42            43            0.00066
+  43          Macaca_nem      0.00065
+  43          Macaca_fas      0.00002
+   1          Rattus_nor      0.05117
+
+
