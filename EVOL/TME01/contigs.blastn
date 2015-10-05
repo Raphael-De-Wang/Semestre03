@@ -1,0 +1,79 @@
+# BLASTN 2.2.29+
+# Query: contig1
+# Database: contigsDB
+# Fields: query id, subject id, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+contig1	contig1	100.00	10922	0	0	1	10922	1	10922	0.0	20170
+contig1	contig3	100.00	150	0	0	1	150	7851	7702	2e-75	  278
+contig1	contig6	100.00	122	0	0	10801	10922	1	122	6e-60	  226
+contig1	contig2	100.00	98	0	0	1	98	98	1	1e-46	  182
+# BLASTN 2.2.29+
+# Query: contig2
+# Database: contigsDB
+# Fields: query id, subject id, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+contig2	contig2	100.00	7247	0	0	1	7247	1	7247	0.0	13383
+contig2	contig7	100.00	127	0	0	7121	7247	1	127	6e-63	  235
+contig2	contig3	100.00	98	0	0	1	98	7754	7851	8e-47	  182
+contig2	contig1	100.00	98	0	0	1	98	98	1	8e-47	  182
+# BLASTN 2.2.29+
+# Query: contig3
+# Database: contigsDB
+# Fields: query id, subject id, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 11 hits found
+contig3	contig3	100.00	7851	0	0	1	7851	1	7851	0.0	14499
+contig3	contig3	79.79	564	89	21	4731	5287	4056	3511	2e-108	  387
+contig3	contig3	79.79	564	89	21	3511	4056	5287	4731	2e-108	  387
+contig3	contig3	86.73	98	13	0	3516	3613	1682	1779	4e-25	  110
+contig3	contig8	81.66	878	130	28	4677	5540	9419	8559	0.0	  701
+contig3	contig8	100.00	143	0	0	1	143	9457	9599	8e-72	  265
+contig3	contig8	79.04	353	63	9	3748	4095	9058	9404	9e-62	  231
+contig3	contig8	85.71	126	18	0	3511	3636	8812	8937	2e-32	  134
+contig3	contig8	92.86	42	3	0	1830	1871	9437	9478	1e-10	62.1
+contig3	contig1	100.00	150	0	0	7702	7851	150	1	1e-75	  278
+contig3	contig2	100.00	98	0	0	7754	7851	1	98	9e-47	  182
+# BLASTN 2.2.29+
+# Query: contig4
+# Database: contigsDB
+# Fields: query id, subject id, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+contig4	contig4	100.00	3152	0	0	1	3152	1	3152	0.0	 5821
+contig4	contig5	100.00	158	0	0	1	158	158	1	2e-80	  292
+contig4	contig6	100.00	101	0	0	3052	3152	751	651	8e-49	  187
+contig4	contig7	100.00	100	0	0	3053	3152	15360	15261	3e-48	  185
+# BLASTN 2.2.29+
+# Query: contig5
+# Database: contigsDB
+# Fields: query id, subject id, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+contig5	contig5	100.00	9718	0	0	1	9718	1	9718	0.0	17946
+contig5	contig4	100.00	158	0	0	1	158	158	1	5e-80	  292
+# BLASTN 2.2.29+
+# Query: contig6
+# Database: contigsDB
+# Fields: query id, subject id, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+contig6	contig6	100.00	9108	0	0	1	9108	1	9108	0.0	16820
+contig6	contig1	100.00	122	0	0	1	122	10801	10922	5e-60	  226
+contig6	contig4	100.00	101	0	0	651	751	3152	3052	2e-48	  187
+contig6	contig7	100.00	100	0	0	651	750	15261	15360	8e-48	  185
+# BLASTN 2.2.29+
+# Query: contig7
+# Database: contigsDB
+# Fields: query id, subject id, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+contig7	contig7	100.00	15360	0	0	1	15360	1	15360	0.0	28365
+contig7	contig2	100.00	127	0	0	1	127	7121	7247	1e-62	  235
+contig7	contig6	100.00	100	0	0	15261	15360	651	750	1e-47	  185
+contig7	contig4	100.00	100	0	0	15261	15360	3152	3053	1e-47	  185
+# BLASTN 2.2.29+
+# Query: contig8
+# Database: contigsDB
+# Fields: query id, subject id, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 5 hits found
+contig8	contig8	100.00	9599	0	0	1	9599	1	9599	0.0	17727
+contig8	contig3	81.66	878	130	27	8559	9419	5540	4677	0.0	  701
+contig8	contig3	100.00	143	0	0	9457	9599	1	143	1e-71	  265
+contig8	contig3	79.04	353	63	9	9058	9404	3748	4095	1e-61	  231
+contig8	contig3	92.86	42	3	0	9437	9478	1830	1871	1e-10	62.1
+# BLAST processed 8 queries
