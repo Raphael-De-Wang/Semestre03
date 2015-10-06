@@ -9,9 +9,12 @@ export PATH=/usr/local/ncbi-blast-2.2.29+/bin/:$PATH
 
 # sequences alignment to DB
 # blastn -db 'contigsDB' -query contigs.fasta -strand 'both' -out contigs.blastn -outfmt '7'
+## blastn -db 'contigsDB' -query contigs.fasta -strand 'both' -out contigs_alignment.blastn 
 
 # expose assemblage possible
 python assemblage_contigs_blastn_table.py contigs.blastn
+
+# combine contigs
 
 # 
 # blastp
