@@ -12,7 +12,7 @@ def interface_standard():
     parser.add_argument('-in', '--fasta-file-name', dest='ifname', help='input fasta name',required=True)
     parser.add_argument('-c1','--contig1-name', dest='contig1',help='contig 1 name',required=True)
     parser.add_argument('-c2','--contig2-name', dest='contig2',help='contig 2 name',required=True)
-    parser.add_argument('-s','--seuil', dest='seuil',help='max number of nu compared from each contig end. Default: 50')
+    parser.add_argument('-s','--seuil', type=int, dest='seuil',help='max number of nu compared from each contig end. Default: 50')
     return parser.parse_args()
 
 def load_input_fasta_to_dict(fname):
