@@ -60,7 +60,7 @@ def exact_assemblage_possible_list(blastn_record_list, contigs_lens_dict):
         if ar.is_combination_possible(contigs_lens_dict):
             if not (ar.qid,ar.sid) in ass_pair_list and not (ar.sid,ar.qid) in ass_pair_list :
                 ass_pair_list.append((ar.qid,ar.sid))
-                print ar.qid,ar.sid
+                print ar.qid, ar.qend > ar.qstart, ar.sid, ar.send > ar.sstart, abs(ar.send - ar.sstart) + 1
     return ass_pair_list
 
 fname = sys.argv[1]

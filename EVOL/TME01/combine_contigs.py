@@ -10,8 +10,9 @@ def interface_standard():
     parser = argparse.ArgumentParser("Simple command for combining specified contigs")
     parser.add_argument('-in', '--input-file-name', dest='ifname', help='input fasta name',required=True)
     parser.add_argument('-on', '--output-file-name', dest='ofname', help='output fasta name',required=True)
-    parser.add_argument('-o', '--order', metavar='N', dest='contigs_order', nargs='+', help="contigs order, N relate to an integer, positive and negative relate to the direction of strain. With ` means laggings strain. Ex. : 3 means contig3 plus direction 5`-3`, 5` means contig5 minus direction 5`-3`.",required=True)
-    parser.add_argument('-l','--overlap', metavar='L', dest='overlaps', nargs='+', help="length of overlaps between contigs",required=True)
+    parser.add_argument('-o', '--order', metavar='N', type=int, dest='contigs_order', nargs='+', help="contigs order, N relate to an integer, positive or negative relate to the direction of strain. ",required=True)
+    parser.add_argument('-s', '--leading-lagging', metavar='S', type=int, dest='strains', nargs='+', help='leading(0) or lagging(other) strain', required=True)
+    parser.add_argument('-L','--overlap', metavar='L', type=int, dest='overlaps', nargs='+', help="length of overlaps between contigs",required=True)
     parser.add_argument('-n','--combine-name', dest='cname',help="Give a name to combined contigs")
     return parser.parse_args()
     
@@ -24,18 +25,34 @@ def load_input_fasta_to_list(fname):
 def save_combined_contigs_to_fasta(fname,seq_record):
     SeqIO.write([seq_record], fname, "fasta")
 
-def combine_contigs(seqRec_list,order_list,overlap_list,cname=None):
+def get_arranged_contig_by_order(seqRec_list, order, leading):
+    seq_record = seqRec_list[abs(order)-1]
+    if order < 0 :
+        seq_record = seq_record[::-1]
+    if not leading :
+        seq_record = seq_record.reverse_complement()
+    return seq_record
+    
+def combine_contigs(seqRec_list,order_list,overlap_list,strain_list,cname=None):
     seq = ""
     overlap_seq = ""
+    ol_list = [0] + list(overlap_list) + [0] # to insert a zero, there is no overlap on first contigs
     if cname == None:
         cname = "gene"
-    for seq_record, order, overlap in zip(seqRec_list, order_list, [0]+list(overlap_list)) : # to insert a zero, there is no overlap on first contigs
-        if cmp(overlap_seq,seq_record.seq[:overlap]) <> 0 :
+    for ind, order in enumerate(order_list) : 
+        overlap = int(ol_list[ind])
+        seq_record = get_arranged_contig_by_order(seqRec_list, order, strain_list[ind]==0)
+        if cmp(overlap_seq,seq_record.seq[:overlap].tostring()) <> 0 :
+            print overlap_seq
+            print seq_record.seq[:overlap]
             raise ValueError("Overlap in contigs meet conflicts, contig id [%s]"%order)
         seq += seq_record.seq[overlap:]
-    return SeqRecord(seq,id=cname,name=cname,description="combine contigs")
+        overlap = ol_list[ind+1]
+        overlap_seq = seq_record.seq[-overlap:].tostring()
+    return SeqRecord(seq,id=cname,name=cname,description="|combine contigs|")
 
 args = interface_standard()
-seqRec_list = load_input_fasta(args.ifname)
-seq_record = combine_contigs(seqRec_list,args.contigs_order,args.overlaps,args.cname)
-save_combined_contigs_to_fasta(fname,seq_record)
+seqRec_list = load_input_fasta_to_list(args.ifname)
+seq_record = combine_contigs(seqRec_list,args.contigs_order,args.overlaps,args.strains,args.cname)
+save_combined_contigs_to_fasta(args.ofname,seq_record)
+
