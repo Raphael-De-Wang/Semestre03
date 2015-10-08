@@ -37,4 +37,5 @@ python combine_contigs.py -in contigs.fasta -on combine_contigs_comb01.fasta -o 
 python combine_contigs.py -in contigs.fasta -on combine_contigs_comb02.fasta -o 3 8 6 1 2 7 4 5 -s 1 1 1 1 0 0 1 0 -L 143 79 122 98 127 100 158 -n combine_contigs_02
 cat combine_contigs_comb01.fasta combine_contigs_comb02.fasta > combine_contigs.fasta
 rm combine_contigs_comb01.fasta combine_contigs_comb02.fasta
+
 # blastp
