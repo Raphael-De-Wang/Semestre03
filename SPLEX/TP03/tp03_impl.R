@@ -114,7 +114,7 @@ estimationMaximisation <- function(data,eps=1e-2,maxIter=200){
 }
 
 estimationMaximisation.testcase <- function(n1=25,n2=10){
-    artificalData <- function(n1,n2){
+    artificalData <- function(n1,n2) {
         d1 <- c(rnorm(n1, mean = -10),rnorm(n2, mean =  10))
         d2 <- c(rnorm(n1, mean = -10),rnorm(n2, mean =  10))
         randOrder <- sample(1:(n1+n2))
@@ -132,4 +132,4 @@ estimationMaximisation.testcase <- function(n1=25,n2=10){
 # data <- loadData()
 # dmvN.testcase(n=100,log=T)
 # models <- estimationMaximisation(data)
-# estimationMaximisation.testcase(n1=100,n2=100)
+estimationMaximisation.testcase(n1=250,n2=100)
