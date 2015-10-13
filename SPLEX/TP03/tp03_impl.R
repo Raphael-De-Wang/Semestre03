@@ -2,6 +2,9 @@
 
 library(mvtnorm)
 
+set.seed(1000)
+options(digits=20)
+
 loadData <- function(fname="obeses_temoins.txt") {
     X <- as.matrix(t(read.table(fname)))
     X <- X[,1:2]
@@ -58,7 +61,12 @@ LogVraisemblance <- function(data,models) {
     for ( indEchant in 1:data$numEchant) {
         for ( indClass in 1:classNum ) {
             x <- t(as.matrix(data$X[indEchant,]))
+            print(x)
+            print('mu: ')
+            print(mu[indClass,])
+            print(matrix(unlist(var[indClass]),nrow=data$numFeature,byrow = TRUE),log=T)
             p[indClass,indEchant] <- dmvnorm(x,mu[indClass,],matrix(unlist(var[indClass]),nrow=data$numFeature,byrow = TRUE),log=T)
+            print(p[indClass,indEchant])
             lv <- lv + z[indClass,indEchant]*(p[indClass,indEchant] + log(alpha[indClass]))
         }
     }
@@ -66,22 +74,24 @@ LogVraisemblance <- function(data,models) {
 }
 
 modelRandInit <- function(data,classNum=2) {
-    alpha <- rep(1/classNum,classNum)
-    mu <- array(runif(classNum*data$numFeature,min=-1,max=1),c(classNum,data$numFeature))
+    alpha <- rep(1,classNum)
+    mu <- lapply(1:data$numFeature, function(n){return(runif(classNum)*max(data$X[n,]))})
+    mu <- as.array(matrix(unlist(mu),nrow=classNum,byrow=TRUE))
     var <- lapply(rep(1,classNum),diag,nrow=data$numFeature)
-    z <- lapply(rep(1/classNum,times=classNum),rep,times=data$numEchant)
+    z <- lapply(1:classNum,function(n,partition){return((partition==n)*1)},partition=replicate(data$numEchant,sample(1:classNum,1)))
     return(list("alpha" = alpha, "mu" = mu, "var" = var, "classNum" = classNum, "z" = z))
 }
 
 estimation <- function(P) {
-    p <- P/colSums(P)
+    p <- prop.table(P,2)
     return(list(1 - ( p[2,] - p[1,] > 0 ) * 1,( p[2,] - p[1,] > 0 ) * 1))
 }
 
 maximisation <- function(data,models) {
     z <- matrix(unlist(models$z),nrow = models$classNum, byrow = T)
     models$alpha <- rowSums(z)/data$numEchant
-    models$mu    <- crossprod(t(z),data$X)/rowSums(z)
+    models$mu    <- t(t(crossprod(t(z),data$X))/rowSums(z))
+    # print(models$mu)
     upVarm <- function(data,mu,z,m) {
         var <- matrix(rep(0,data$numFeature^2),nrow=data$numFeature)
         for ( i in 1:data$numEchant ) {
@@ -91,11 +101,11 @@ maximisation <- function(data,models) {
         }
         return(var/sum(z[m,]))
     }
-    models$var   <- lapply(1:models$classNum,upVarm,data=data,mu=models$mu,z=z)
+    models$var <- lapply(1:models$classNum,upVarm,data=data,mu=models$mu,z=z)
     return(models)
 }
 
-estimationMaximisation <- function(data,eps=1e-2,maxIter=200){
+estimationMaximisation <- function(data,eps=1e-15,maxIter=500) {
     lvlist <- c()
     models <- modelRandInit(data)
     modelsfinal <- models
@@ -109,12 +119,12 @@ estimationMaximisation <- function(data,eps=1e-2,maxIter=200){
         }
     }
     print(lvlist)
-    print(which.max(lvlist))
+    # print(which.max(lvlist))
     return(modelsfinal)
 }
 
 estimationMaximisation.testcase <- function(n1=25,n2=10){
-    artificalData <- function(n1,n2) {
+    artificalData <- function(n1,n2){
         d1 <- c(rnorm(n1, mean = -10),rnorm(n2, mean =  10))
         d2 <- c(rnorm(n1, mean = -10),rnorm(n2, mean =  10))
         randOrder <- sample(1:(n1+n2))
@@ -124,7 +134,7 @@ estimationMaximisation.testcase <- function(n1=25,n2=10){
         return(list("X"=X,"numEchant"=numEchant,"numFeature"=numFeature))
     }
     data <- artificalData(n1,n2)
-    models <- estimationMaximisation(data)
+    models <- estimationMaximisation(data,maxIter=2)
     plot(data$X)
     points(models$mu,col='red',pch = 21:25)
 }
@@ -132,4 +142,4 @@ estimationMaximisation.testcase <- function(n1=25,n2=10){
 # data <- loadData()
 # dmvN.testcase(n=100,log=T)
 # models <- estimationMaximisation(data)
-estimationMaximisation.testcase(n1=250,n2=100)
+estimationMaximisation.testcase(n1=2,n2=2)
