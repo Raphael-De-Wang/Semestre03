@@ -1,15 +1,8 @@
 #!env Rscript
 
-pdf(file=ifelse(FALSE, "tp03_Analyse_summary.pdf", "tp03_Analyse_summary.pdf"))
-attach(mtcars,warn.conflicts = FALSE)
-
 library(mclust)
 
-loadData <- function(fname="obeses_temoins.txt") {
-    X <- as.matrix(t(read.table(fname)))
-    Y <- c(rep(1,25),rep(2,10))
-    return(list("X"=X,"Y"=Y))
-}
+source("tp03_impl.R")
 
 EMMixModel <- function(X,Yp,Y,modelName) {
     msEst <- mstep(modelName = "VVV", data = X[,1:1000], z = unmap(Yp))
@@ -50,19 +43,55 @@ ClusterAnalysisPrior <- function (X) {
     return(resBIC)
 }
 
+DensityEstimationAnalyse <- function (X) {
+    resDens <- densityMclust(X)
+    plot(resDens, what = "diagnostic")
+    plot(resDens)
+    plot(resDens, faithful, col = "grey", nlevels = 10, drawlabels = FALSE)
+    plot(resDens, type = "image", col = topo.colors(50))
+    plot(resDens, type = "persp", col = grey(0.8))
+    return(resDens)
+}
 
-data <- loadData()
+DiscriminantAnalyse <- function(X,Y) {
+    x <- X[,1:1000]
+    msEst <- mstep(modelName = "VVV", data = x, z = unmap(Y)) 
+    emRes <- em(modelName = msEst$modelName, data = x, parameters = msEst$parameters)
+    return(emRes)
+}
 
-print("visualizeData")
-visualizeData(data$X)
+mclustAnalyse <- function(){
 
-print("ClusterAnalysis")
-ClusterAnalysis(data$X)
+    data <- loadData()
 
-print("ClusterAnalysisBIC")
-ClusterAnalysisBIC(data$X)
+    # pdf(file=ifelse(FALSE, "tp03_Analyse_summary.pdf", "tp03_Analyse_summary.pdf"))
+    # attach(mtcars,warn.conflicts = FALSE)
 
-# ClusterAnalysisPrior(data$X)
+    pdf("visualizeData.pdf")
+    attach(mtcars,warn.conflicts = FALSE)
+    print("visualizeData")
+    visualizeData(data$X)
+    dev.off()
+    
+    pdf("ClusterAnalysis.pdf")
+    attach(mtcars,warn.conflicts = FALSE)
+    print("ClusterAnalysis")
+    ClusterAnalysis(data$X)
+    dev.off()
 
-dev.off()
+    pdf("ClusterAnalysisBIC.pdf")
+    attach(mtcars,warn.conflicts = FALSE)
+    print("ClusterAnalysisBIC")
+    ClusterAnalysisBIC(data$X)
+    dev.off()
 
+    # ClusterAnalysisPrior(data$X)
+
+    pdf("DensityEstimationAnalyse.pdf")
+    attach(mtcars,warn.conflicts = FALSE)
+    print("DensityEstimationAnalyse")
+    DensityEstimationAnalyse(data$X)
+    dev.off()
+}
+
+# mclustAnalyse()

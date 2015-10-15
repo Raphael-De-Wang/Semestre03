@@ -6,7 +6,6 @@ set.seed(1000)
 
 loadData <- function(fname="obeses_temoins.txt") {
     X <- as.matrix(t(read.table(fname)))
-    X <- X[,1:10]
     Y <- c(rep(1,25),rep(2,10))
     numEchant <- nrow(X)
     numFeature <- ncol(X)
