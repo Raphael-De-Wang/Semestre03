@@ -34,8 +34,8 @@ python brutal_cmp.py -in contigs.fasta -c1 contig6 -c2 contig5 -s 100
 
 # combine contigs
 python combine_contigs.py -in contigs.fasta -on combine_contigs_comb01.fasta -o 1 6 8 3 2 7 4 5 -s 0 0 0 0 0 0 1 0 -L 122 79 143 98 127 100 158 -n combine_contigs_01
-python combine_contigs.py -in contigs.fasta -on combine_contigs_comb02.fasta -o 3 8 6 1 2 7 4 5 -s 1 1 1 1 0 0 1 0 -L 143 79 122 98 127 100 158 -n combine_contigs_02
-cat combine_contigs_comb01.fasta combine_contigs_comb02.fasta > combine_contigs.fasta
-rm combine_contigs_comb01.fasta combine_contigs_comb02.fasta
+# python combine_contigs.py -in contigs.fasta -on combine_contigs_comb02.fasta -o 3 8 6 1 2 7 4 5 -s 1 1 1 1 0 0 1 0 -L 143 79 122 98 127 100 158 -n combine_contigs_02
+# cat combine_contigs_comb01.fasta combine_contigs_comb02.fasta > combine_contigs.fasta
+# rm combine_contigs_comb01.fasta combine_contigs_comb02.fasta
 
 # blastp
