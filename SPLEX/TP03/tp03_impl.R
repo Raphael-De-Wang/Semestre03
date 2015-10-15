@@ -3,7 +3,6 @@
 library(mvtnorm)
 
 set.seed(1000)
-options(digits=20)
 
 loadData <- function(fname="obeses_temoins.txt") {
     X <- as.matrix(t(read.table(fname)))
@@ -26,7 +25,8 @@ dmvN <- function(x,mu,var,log=F){
         return(inner(crossprod((-0.5)*t(x-mu),solve(var)),(x-mu)))
     }
     if (!is.matrix(var) || !is.matrix(mu) || !is.matrix(x) ) {
-        stop("[constraint of variable] x: matrix, mu: matrix, var: matrix. Check dnorm for Linear Gaussien.")}
+        stop("[constraint of variable] x: matrix, mu: matrix, var: matrix. Check dnorm for Linear Gaussien.")
+    }
     if (ncol(var)!=nrow(var)) {
         stop("var is not symmetric.")
     }
@@ -78,7 +78,6 @@ modelRandInit <- function(data,classNum=2) {
 
 estimation <- function(P) {
     p <- prop.table(P,2)
-    p[is.na(p)] <- 1
     return(list(1 - ( p[2,] - p[1,] > 0 ) * 1,( p[2,] - p[1,] > 0 ) * 1))
 }
 
@@ -87,24 +86,41 @@ maximisation <- function(data,models) {
     models$alpha <- rowSums(z)/data$numEchant
     models$mu    <- (crossprod(t(z),data$X))/rowSums(z)
     upVarm <- function(data,mu,z,oldvar,indClass) {
-        var <- matrix(unlist(oldvar[indClass]),nrow=data$numFeature,byrow = TRUE) # matrix(rep(0,data$numFeature^2),nrow=data$numFeature)
+        var <- matrix(unlist(oldvar[indClass]),nrow=data$numFeature,byrow = TRUE) 
         for ( i in 1:data$numEchant ) {
             if ( z[indClass,i] == 1 ) {
                 var <- var + ((data$X[i,] - mu[indClass,]) %*% t(data$X[i,] - mu[indClass,]))
             }
         }
-        return(var/sum(z[indClass,]))
+        var <- var/sum(z[indClass,])
+        return(var)
     }
     models$var <- lapply(1:models$classNum,upVarm,data=data,mu=models$mu,z=z,oldvar=models$var)
     return(models)
 }
 
 estimationMaximisation <- function(data,eps=1e-7,maxIter=500) {
+    options(digits=20)
     lvlist <- c()
     models <- modelRandInit(data)
-    while ( ( length(lvlist) < 2 || lvlist[1]-lvlist[2] > eps ) && (length(lvlist) < maxIter) ) {
+    stopIter <- function(lvlist,maxIter) { 
+        if (length(lvlist) < 2) {
+            return(TRUE)
+        } else if (abs(lvlist[1]-lvlist[2]) < eps) {
+            return(FALSE)
+        } else if (length(lvlist) < maxIter) {
+            return(TRUE)
+        } else {
+            return(FALSE)
+        }
+    }
+    while (stopIter(lvlist,maxIter)) {
         print(sprintf("iteration number [%d] [%f]", length(lvlist), lvlist[1]))
         lv <- LogVraisemblance(data, models)
+        if (is.na(lv$lv)) {
+            warning(sprintf("Data cannot be estmated into %d classes",models$classNum))
+            break
+        }
         models$z <- estimation(lv$p)
         models <- maximisation(data,models)
         lvlist <- c(lv$lv,lvlist)
@@ -114,8 +130,8 @@ estimationMaximisation <- function(data,eps=1e-7,maxIter=500) {
     return(models)
 }
 
-estimationMaximisation.testcase <- function(n1=25,n2=10){
-    artificalData <- function(n1,n2){
+estimationMaximisation.testcase <- function(n1=25,n2=10) {
+    artificalData <- function(n1,n2) {
         d1 <- c(rnorm(n1, mean = -5),rnorm(n2, mean =  10))
         d2 <- c(rnorm(n1, mean = -5),rnorm(n2, mean =  10))
         randOrder <- sample(1:(n1+n2))
@@ -130,7 +146,15 @@ estimationMaximisation.testcase <- function(n1=25,n2=10){
     points(models$mu,col='red',pch = 21:25)
 }
 
-data <- loadData()
-# dmvN.testcase(n=100,log=T)
-models <- estimationMaximisation(data)
-# estimationMaximisation.testcase(n1=2,n2=20)
+naiveTestSuite <- function () {
+    data <- loadData()
+    # test 1 : validation of multiple dimesional gaussien
+    dmvN.testcase(n=100,log=T)
+
+    # test 2 : EM test on biclass unbalanced data
+    estimationMaximisation.testcase(n1=2,n2=20)
+}
+
+# data <- loadData()
+# models <- estimationMaximisation(data)
+
