@@ -67,28 +67,18 @@ mclustAnalyse <- function(){
     # pdf(file=ifelse(FALSE, "tp03_Analyse_summary.pdf", "tp03_Analyse_summary.pdf"))
     # attach(mtcars,warn.conflicts = FALSE)
 
-    pdf("visualizeData.pdf")
-    attach(mtcars,warn.conflicts = FALSE)
     print("visualizeData")
     visualizeData(data$X)
-    dev.off()
     
-    pdf("ClusterAnalysis.pdf")
-    attach(mtcars,warn.conflicts = FALSE)
     print("ClusterAnalysis")
     ClusterAnalysis(data$X)
-    dev.off()
 
-    pdf("ClusterAnalysisBIC.pdf")
-    attach(mtcars,warn.conflicts = FALSE)
     print("ClusterAnalysisBIC")
     ClusterAnalysisBIC(data$X)
-    dev.off()
-
+    
+    # print("ClusterAnalysisPrior")
     # ClusterAnalysisPrior(data$X)
 
-    pdf("DensityEstimationAnalyse.pdf")
-    attach(mtcars,warn.conflicts = FALSE)
     print("DensityEstimationAnalyse")
     DensityEstimationAnalyse(data$X)
     dev.off()

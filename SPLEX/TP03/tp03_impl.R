@@ -102,18 +102,7 @@ estimationMaximisation <- function(data,eps=1e-7,maxIter=500) {
     options(digits=20)
     lvlist <- c()
     models <- modelRandInit(data)
-    stopIter <- function(lvlist,maxIter) { 
-        if (length(lvlist) < 2) {
-            return(TRUE)
-        } else if (abs(lvlist[1]-lvlist[2]) < eps) {
-            return(FALSE)
-        } else if (length(lvlist) < maxIter) {
-            return(TRUE)
-        } else {
-            return(FALSE)
-        }
-    }
-    while (stopIter(lvlist,maxIter)) {
+    while ( ( length(lvlist) < 2 || abs(lvlist[1]-lvlist[2]) > eps ) && (length(lvlist) < maxIter) ) {
         print(sprintf("iteration number [%d] [%f]", length(lvlist), lvlist[1]))
         lv <- LogVraisemblance(data, models)
         if (is.na(lv$lv)) {
@@ -154,6 +143,7 @@ naiveTestSuite <- function () {
     estimationMaximisation.testcase(n1=2,n2=20)
 }
 
+# naiveTestSuite()
+
 # data <- loadData()
 # models <- estimationMaximisation(data)
-
