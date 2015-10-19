@@ -248,18 +248,18 @@ def graphlist2dict(graph):
 
 def recursive_rm_node(edges_dict, node):
     if len(edges_dict[node]) >= 2 :
-        return #edges_dict
+        return edges_dict
     nodep = edges_dict[node][0]
     edges_dict.pop(node)
     edges_dict[nodep].remove(node)
-    recursive_rm_node(edges_dict, nodep)
+    return recursive_rm_node(edges_dict, nodep)
 
 def rm_monogamous(edges_dict):
     nodes = edges_dict.keys()
     for n in nodes:
-        if edges_dict.has_key(n) and len(edges_dict[n]) < 2:
-            recursive_rm_node(edges_dict,n)
-
+        if edges_dict.has_key(n) : 
+            edges_dict = recursive_rm_node(edges_dict,n)
+    return edges_dict
 
 def bfs(edges_dict,start,subgraph=[]):
     if start in subgraph :
@@ -270,22 +270,12 @@ def bfs(edges_dict,start,subgraph=[]):
     return subgraph
 
 
-def bfs2(edges_dict, queue, visited = set()):
-    if not queue:
-        raise StopIteration
-    for n in edges_dict[queue.pop(0)]:
-        if n not in visited:
-            queue.append(n)
-            visited.add(tuple(n))
-            yield n
-    for n in bfs2(edges_dict, queue, visited):
-            yield n
-                
-        
 def build_subgraphs(common_edges):
     # filter nodes no clique >= 3
     edges_dict = graphlist2dict(common_edges)
-    rm_monogamous(edges_dict)
+    print(len(edges_dict.keys()))
+    edges_dict = rm_monogamous(edges_dict)
+    print(len(edges_dict.keys()))
     debug_vertice_type(edges_dict)            
     nodes = set(edges_dict.keys())
     subgraphs = []
@@ -312,6 +302,13 @@ if __name__ == '__main__':
     graph1 = build_graph_sub('2CPK.pdb', chain='E')
     graph2 = build_graph_sub('3LCK.pdb', chain='A')
     common_edges1, common_edges2 = edges_comp(graph1, graph2)
+    
+    print "common edges 1 : "
     sgs = build_subgraphs(common_edges1)
     for sg in sgs :
         print sg
+        
+    print "common edges 2 : "
+    sgs = build_subgraphs(common_edges2)
+    for sg in sgs :
+        print sg        

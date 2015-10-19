@@ -36,7 +36,8 @@ glm.binomial <- Q1.SimulezJeu()
 #### La regression logistique binaire
 
 randInitTheta <- function (numFeature=2) {
-    return(as.matrix(rnorm(numFeature+1),row=1))
+    # return(as.matrix(rnorm(numFeature+1),row=1))
+    return(matrix(rep(0,numFeature+1),nrow=1))
 }
 
 vectorXmatrix <- function (theta,X) {
@@ -61,18 +62,23 @@ p <- function (theta, x, y = 1) {
 }
 
 firstDerivative <- function (theta,x,y) {
-    print(vectorXmatrix((y-p(theta,x)),t(x)))
+    return(vectorXmatrix((y-p(theta,x)),t(x)))
 }
 
-computeHessianMtx <- function (theta,x,y) {
-    mxv <- function(i,m,y){return(m[i,]*y)}
-    print(matrix(unlist(lapply(1:nrow(x),mxv,tcrossprod(x),p(theta,x))),nrow=nrow(x))) ####
-    # unlist(lapply(1:nrow(x),mxv,tcrossprod(x),p(theta,x)))
+computeHessianMtx <- function (theta,x) {
+    mxv <- function(n,x,prob) {
+        return(tcrossprod(x[n,])*prob[n]*(1-prob[n]))
+    }
+    H <- matrix(rep(0,ncol(x)^2),nrow=ncol(x))
+    for ( hssn in lapply(1:nrow(x),mxv,x,p(theta,x))) {
+        H <- H + hssn
+    }
+    return(H)
 }
 
 basefuns.testcase <- function(){
     # build fake data 
-    fdata <- fakeData(4)
+    fdata <- fakeData(40)
     plot(fdata$x1,fdata$x2)
 
     # random model
@@ -91,22 +97,28 @@ basefuns.testcase <- function(){
     print(sprintf("y=1 probability : %f", pRes))
 
     # Compute the first derivative
-    firstDerivative(theta,x,y)
+    print(firstDerivative(theta,x,y))
 
     # Compute the Hessian matrix
-    computeHessianMtx(theta,x,y)
+    print(computeHessianMtx(theta,x))
 }
 
 NewtonRaphon <- function (d,eps=1.e-5,maxIter=500) {
-    theta <- randInitTheta()
     lvlist <- c()
+    theta <- randInitTheta()
+    x <- matrix(unlist(d$frame[,-1]), nrow=d$numEchant)
+    y <- matrix(unlist(d$y))
     # iterate to the convergence
     while ( (length(lvlist)<2 || abs(lvlist[1]-lvlist[2])>eps) && (length(lvlist) < maxIter) ) {
-        print(sprintf("iteration number [%d] [%f]", length(lvlist), lvlist[1]))  
-        lv <- logVrai(d,theta)
+        lvlist <- c(logVrai(d,theta),lvlist)
+        print(sprintf("iteration number [%d] [%f]", length(lvlist), lvlist[1]))
+        print(theta)
+        sh <- solve(computeHessianMtx(theta,x))
+        fd <- firstDerivative(theta,x,y)
+        theta <- theta - vectorXmatrix(fd,sh)
     }
 }
 
 basefuns.testcase()
 
-# NewtonRaphon(fakeData(4))
+# NewtonRaphon(fakeData(50))
