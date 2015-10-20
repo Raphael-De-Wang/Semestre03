@@ -15,6 +15,15 @@ fakeData <- function (n=1000) {
     return(list(x0=x0,x1=x1,x2=x2,y=y,z=z,pr=pr,frame=df,d=2,numEchant=n,nomFeauture=2))
 }
 
+fakeData2 <- function () {
+    x0 = rep(1,4)
+    x1 = c(1,1,-1,-1)
+    x2 = c(1,-1,1,-1)
+    y  = c(0,0,1,1)
+    df = data.frame(y=y,x0=x0,x1=x1,x2=x2)
+    return(list(x0=x0,x1=x1,x2=x2,y=y,frame=df,numEchant=4,nomFeauture=2))
+}
+
 Q1.SimulezJeu <- function () {
     pdf(file=ifelse(FALSE, "tp04_Q1SimulezJeu.pdf", "tp04_Q1SimulezJeu.pdf"))
     attach(mtcars,warn.conflicts = FALSE)
@@ -31,13 +40,12 @@ Q1.SimulezJeu <- function () {
     return(glm.binomial)
 }
 
-glm.binomial <- Q1.SimulezJeu()
-
 #### La regression logistique binaire
 
 randInitTheta <- function (numFeature=2) {
     # return(as.matrix(rnorm(numFeature+1),row=1))
-    return(matrix(rep(0,numFeature+1),nrow=1))
+    # return(matrix(rep(1,numFeature+1),ncol=1))
+    return(matrix(c(0,1,1),ncol=1))
 }
 
 vectorXmatrix <- function (theta,X) {
@@ -76,15 +84,25 @@ computeHessianMtx <- function (theta,x) {
     return(H)
 }
 
-basefuns.testcase <- function(){
-    # build fake data 
-    fdata <- fakeData(40)
-    plot(fdata$x1,fdata$x2)
+dvp <- function (d,theta) {
+    theta <- theta/theta[2]
+    plot(d$x1,d$x2,type="n")
+    text(d$x1,d$x2,labels = d$y,col = c('red','blue','green')[d$y+1])
+    abline(a = sum(theta * c(1,0,0)), b = -theta[3]/theta[2] , col = 2)
+}
 
+basefuns.testcase <- function(n){
+    # build fake data 
+    # fdata <- fakeData(n)
+    fdata <- fakeData2()
+    
     # random model
     theta <- randInitTheta()
     print(theta)
 
+    # plot data and theta
+    dvp(fdata,theta)
+    
     # log vraisemblance
     lv <- logVrai(fdata,theta)
     print(sprintf("log vraisemblance : %f",lv))
@@ -101,6 +119,7 @@ basefuns.testcase <- function(){
 
     # Compute the Hessian matrix
     print(computeHessianMtx(theta,x))
+
 }
 
 NewtonRaphon <- function (d,eps=1.e-5,maxIter=500) {
@@ -110,15 +129,30 @@ NewtonRaphon <- function (d,eps=1.e-5,maxIter=500) {
     y <- matrix(unlist(d$y))
     # iterate to the convergence
     while ( (length(lvlist)<2 || abs(lvlist[1]-lvlist[2])>eps) && (length(lvlist) < maxIter) ) {
+        dvp(d,theta)
         lvlist <- c(logVrai(d,theta),lvlist)
         print(sprintf("iteration number [%d] [%f]", length(lvlist), lvlist[1]))
         print(theta)
         sh <- solve(computeHessianMtx(theta,x))
         fd <- firstDerivative(theta,x,y)
         theta <- theta - vectorXmatrix(fd,sh)
+        theta <- theta/theta[2]
     }
+    return(theta)
 }
 
-basefuns.testcase()
+NewtonRaphon.testcase <- function(n) {
+    pdf(file=ifelse(FALSE, "Newtown_test.pdf", "Newtown_test.pdf"))
+    attach(mtcars,warn.conflicts = FALSE)
 
-# NewtonRaphon(fakeData(50))
+    d <- fakeData(n)
+    # d <- fakeData2()
+    theta <- NewtonRaphon(d,maxIter=6)
+    dvp(d,theta)
+
+    dev.off()    
+}
+
+# glm.binomial <- Q1.SimulezJeu()
+# basefuns.testcase(40)
+NewtonRaphon.testcase(50)
