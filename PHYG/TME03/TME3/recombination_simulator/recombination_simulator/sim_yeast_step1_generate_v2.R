@@ -6,8 +6,8 @@ setwd("~/Documents/PhyChro/sim")
 params <- list(
   genes = 5000,
   chr = 8,
-  nSpecies = 21,
-  averageEvents = 500,
+  nSpecies = 10,
+  averageEvents = 400,
   minimalEventsOnBranch = 1,
   averageInversionLength = 5,
   averageDuplicationLength = 5,
@@ -21,9 +21,9 @@ params <- list(
   probWGD = 0.0001,
   averageDeletionRateWGD = 0.8,
   outDirectory = "results_yeast1",
-  #phyChroFormat = TRUE,
+  phyChroFormat = TRUE,
   save = TRUE,
-  nSimulations = 100,
+  nSimulations = 10,
   seed = 0)
 
 source("scripts/sim_main.R")

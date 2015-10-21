@@ -62,7 +62,7 @@ randInitTheta <- function (numFeature=2) {
 logVrai <- function (d, theta) {
     x <- as.matrix(d$frame)[,-1]
     y <- as.matrix(d$y)
-    return(sum(unlist(lapply(1:nrow(x),function(n,theta,x,y){log(1+exp(t(theta)%*%x[n,]))-y[n]*t(theta)%*%x[n,]},theta,x,y))))
+    return(sum(unlist(lapply(1:nrow(x),function(n,theta,x,y){y[n]*t(theta)%*%x[n,]-log(1+exp(t(theta)%*%x[n,]))},theta,x,y))))
 }
 
 vectorXmatrix <- function (theta,X) {
@@ -158,8 +158,8 @@ NewtonRaphon <- function (d,eps=1.e-5,maxIter=500) {
 NewtonRaphon.testcase <- function(n) {
     pdf(file=ifelse(FALSE, "Newtown_test.pdf", "Newtown_test.pdf"))
     attach(mtcars,warn.conflicts = FALSE)
-    # d <- fakeData(n)
-    d <- fakeData2()
+    d <- fakeData(n)
+    # d <- fakeData2()
     # d <- fakeData3(10,20)
     theta <- NewtonRaphon(d)
     dvp(d,theta)
