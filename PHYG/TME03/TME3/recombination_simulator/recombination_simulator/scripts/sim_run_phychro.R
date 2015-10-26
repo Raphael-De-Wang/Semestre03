@@ -36,7 +36,9 @@ while (TRUE) {
   
   cat("Running PhyChro for simulation", simIndex, "...\n")
   
-  setwd(params$phyChroInstallationDirectory)
+  # setwd(params$phyChroInstallationDirectory)
+  setwd("/users/nfs/Etu9/3404759/Workspace/Semestre03/PHYG/TME03/2PhyChro/")
+  print(phyChroDir)
   ret <- system2("python", args=c("PhyChro.py", paste(phyChroDir, "/", sep=""), "tree", "0"))
   setwd(originalWD)
   if (ret != 0) {

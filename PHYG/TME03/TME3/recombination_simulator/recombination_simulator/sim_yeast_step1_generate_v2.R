@@ -1,7 +1,7 @@
 # Author: Raphael Champeimont
 # UMR 7238 Biologie Computationnelle et Quantitative
 
-setwd("~/Documents/PhyChro/sim")
+# setwd("~/Documents/PhyChro/sim")
 
 params <- list(
   genes = 5000,
@@ -22,6 +22,7 @@ params <- list(
   averageDeletionRateWGD = 0.8,
   outDirectory = "results_yeast1",
   phyChroFormat = TRUE,
+  phyChroInstallationDirectory = "/users/nfs/Etu9/3404759/Workspace/Semestre03/PHYG/TME03/2PhyChro/",
   save = TRUE,
   nSimulations = 10,
   seed = 0)

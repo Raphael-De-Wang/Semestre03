@@ -21,9 +21,10 @@ params <- list(
   probWGD = 0.0001,
   averageDeletionRateWGD = 0.8,
   outDirectory = "results_vert1",
-  #phyChroFormat = TRUE,
+  phyChroFormat = TRUE,
   save = TRUE,
   nSimulations = 100,
+  phyChroInstallationDirectory = "/users/nfs/Etu9/3404759/Workspace/Semestre03/PHYG/TME03/2PhyChro/"
   seed = 0)
 
 source("scripts/sim_main.R")

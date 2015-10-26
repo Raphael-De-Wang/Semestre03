@@ -1,7 +1,7 @@
 # Author: Raphael Champeimont
 # UMR 7238 Biologie Computationnelle et Quantitative
 
-setwd("~/Documents/PhyChro/sim")
+# setwd("~/Documents/PhyChro/sim")
 
 for (resName in list.files(pattern="^results")) {
   if (file.exists(paste(resName, "/simulations", sep=""))) {

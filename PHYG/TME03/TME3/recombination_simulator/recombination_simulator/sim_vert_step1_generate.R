@@ -21,7 +21,7 @@ params <- list(
   probWGD = 0.0001,
   averageDeletionRateWGD = 0.8,
   outDirectory = "results_vert10",
-  #phyChroFormat = TRUE,
+  phyChroFormat = TRUE,
   save = TRUE,
   nSimulations = 100,
   seed = 0)
