@@ -1,3 +1,4 @@
+#!/usr/bin/env Rscript
 
 load_data <- function(filename) {
     return(read.delim(filename, as.is=T))
@@ -11,19 +12,29 @@ unique_points <- function(graph) {
     return( pts[ !duplicated(pts), ] )
 }
 
+#seg_params <- function(graph, ...) {
+#    list(x=cbind(graph$x1, graph$x2),
+#         y=cbind(graph$y1, graph$y2),
+#         z=cbind(graph$z1, graph$z2), ...)
+#}
+
 seg_params <- function(graph, ...) {
-    list(x=cbind(graph$x1, graph$x2),
-         y=cbind(graph$y1, graph$y2),
-         z=cbind(graph$z1, graph$z2), ...)
+    list(x=as.vector(t(graph[,c("x1","x2")])),
+           y=as.vector(t(graph[,c("y1","y2")])),
+           z=as.vector(t(graph[,c("z1","z2")])))
 }
 
-seegraph <- function(filename, sph_par=list(), seg_par=list(), save=NULL) {
+seegraph <- function(filename, sph.radius=1, #sph_par=list(),
+                     seg_par=list(), save=NULL) {
     require(rgl)
     edges <- load_data(filename)
     nodes <- unique_points(edges)
-    sph_par <- c(list(x=nodes$x, y=nodes$y, z=nodes$z), sph_par)
+    #sph_par <- c(list(x=nodes$x, y=nodes$y, z=nodes$z), sph_par)
+    sph_par <- list(x=nodes$x, y=nodes$y, z=nodes$z, radius=sph.radius)
     do.call(rgl.spheres, sph_par)
-    #rgl.texts(nodes$x, nodes$y, nodes$z, nodes$Node)
+    #rgl.texts(nodes$x, nodes$y, nodes$z, text=nodes$Node, adj=c(1,1))
+    text3d(nodes$x+sph.radius, nodes$y+sph.radius, nodes$z+sph.radius,
+           text=nodes$Node, adj=c(1,1))
     do.call(segments3d, c(seg_params(edges), seg_par))
     #if( !is.null(save) )
     #    rgl.postscript(filename=save, fmt="pdf")
@@ -43,12 +54,12 @@ rotatetranslate <- function(line) {
     return( rot_mat %*% coord + tr_mat )
 }
 
-
-CPK <- seegraph("2CPK_graphs_01.tsv", list(col='lightblue'), list(col='grey20'),
+if( !interactive() ) {
+    CPK <- seegraph("2CPK_graphs_01.tsv", list(col='lightblue'), list(col='grey20'),
                 save="2CPK.png") 
-LCK <- seegraph("3LCK_graphs_01.tsv", list(col='lightgreen'),
+    LCK <- seegraph("3LCK_graphs_01.tsv", list(col='lightgreen'),
                 list(col='grey20'), save="3LCK.png")
-
+}
 #LCK_p_adj <- t(apply(LCK_p, 1, rotatetranslate))
 #colnames(LCK_p_adj) <- c('x', 'y', 'z')
  

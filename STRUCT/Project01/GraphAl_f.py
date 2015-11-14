@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+### Copied from GraphAl_7
+### Difference is the comparison of weights is done in a symetric manner
+### (more permissive)
 
 import sys
 import Bio.PDB
@@ -8,47 +11,13 @@ import numpy as np
 from copy import deepcopy
 
 
-class Vertex:
-    def __init__(self, S, E):
-        """S and E are Atoms objects from a Bio.PDB.Structure"""
-        self.S = S
-        self.E = E
-        self.coord = S.coord
-        self.x = S.coord[0]
-        self.y = S.coord[1]
-        self.z = S.coord[2]
-        self.resname = S.parent.resname
-        self.id = S.parent.id[1]
-
-        
-    def __getitem__(self, index):
-        if index == 0:
-            return self.S
-        elif index == 1:
-            return self.E
-        elif index == 2:
-            return self.id
-        elif index == 3:
-            return self.resname
-        else:
-            raise IndexError("index out of range")
-    
-    def __repr__(self):
-        #return "<Vertex %s %s>" %(self.resname, self.id)
-        return "%s %s" %(self.resname, self.id)
-    
-    @property
-    def shortname(self):
-        return "%s%s" % (Bio.PDB.protein_letters_3to1[self.resname], self.id)
-
-
 class Weight:
     def __init__(self, vertex1, vertex2):
         self.residues = [vertex1.resname, vertex2.resname]
         # eudlidean distances between CA - CA and CA - CB
         self.S1S2 = np.linalg.norm(vertex1.S.coord - vertex2.S.coord)
         self.S1E2 = np.linalg.norm(vertex1.S.coord - vertex2.E.coord)
-        self.S2E1 = np.linalg.norm(vertex1.E.coord - vertex2.S.coord)
+        self.S2E1 = np.linalg.norm(vertex1.S.coord - vertex2.E.coord)
         self.q = self.get_dihedral(vertex1.E.coord, vertex1.S.coord,
                                    vertex2.S.coord, vertex2.E.coord)
         #self.q = Bio.PDB.calc_dihedral()
@@ -99,6 +68,50 @@ class Edge:
                           str(self.v2.x), str(self.v2.y), str(self.v2.z)]) + "\n"
     
         
+class Vertex:
+    def __init__(self, S, E):
+        self.S = S
+        self.E = E
+        self.coord = S.coord
+        self.x = S.coord[0]
+        self.y = S.coord[1]
+        self.z = S.coord[2]
+        self.resname = S.parent.resname
+        self.id = S.parent.id[1]
+
+        
+    def __getitem__(self, index):
+        if index == 0:
+            return self.S
+        elif index == 1:
+            return self.E
+        elif index == 2:
+            return self.id
+        elif index == 3:
+            return self.resname
+        else:
+            raise IndexError("index out of range")
+    
+    def __repr__(self):
+        #return "<Vertex %s %s>" %(self.resname, self.id)
+        return "%s %s" %(self.resname, self.id)
+    
+    @property
+    def shortname(self):
+        return "%s%s" % (Bio.PDB.protein_letters_3to1[self.resname], self.id)
+
+        
+def debug_vertex_type(edges_dict):
+    for e in edges_dict.keys():
+        if not isinstance(e,Vertex):
+            print "--->", e
+            break
+        for ep in edges_dict[e] :
+            if not isinstance(ep,Vertex):
+                print "===>", ep
+                exit()
+
+                        
 #### Part 1 : construction of graph
 # 2CPK.pdb
 # 3LCK.pdb
@@ -121,8 +134,11 @@ def select_aa_acessible(pdb_fname, chain_name=None, Wacc=1):
     dssp_dict, key_list = Bio.PDB.make_dssp_dict(dssp_fname)
 
     if chain_name :
+        #return (dssp_dict,[ key for key in key_list if chain_name in key and \
+        #dssp_dict[key][2] >= Wacc ])
         return [k[1][1] for k in key_list if chain_name == k[0] and dssp_dict[k][2] >= Wacc ]
     else :
+        #return (dssp_dict,[ key for key in key_list if dssp_dict[key][2] >= Wacc ])
         return [k[1][1] for k in key_list if dssp_dict[k][2] >= Wacc ]
     
 
@@ -161,6 +177,7 @@ def select_vertices(structure, accessible_aa = None):
 def build_graph(vertices_list, Dmax=8): 
     graph = []
     N = len(vertices_list)
+    #mtx = build_mtx_dist(vertices_list)
     for i in range(N):
         for j in range(i+1, N):
             a = vertices_list[i].coord
@@ -177,7 +194,9 @@ def build_graph(vertices_list, Dmax=8):
 _blosum62_aa =  ["A", "R", "N", "D", "C", "Q", "E", "G", "H", "I", "L", "K",
                  "M", "F", "P", "S", "T", "W", "Y", "V", "B", "Z", "X", "*" ]
 
-    
+_blosum62_aa3 =  ["ALA", "ARG", "ASN", "ASP", "CYS", "GLN", "GLU", "GLY", "HIS", "ILE", "LEU", "LYS",
+                 "MET", "PHE", "PRO", "SER", "THR", "TRP", "TYR", "VAL", "ASX", "GLX", "X", "*" ]
+
 _blosum62 = np.matrix(
 """ 4 -1 -2 -2  0 -1 -1  0 -2 -1 -1 -1 -1 -2 -1  1  0 -3 -2  0 -2 -1  0 -4 ; 
    -1  5  0 -2 -3  1  0 -2  0 -3 -2  2 -1 -3 -2 -1 -1 -3 -2 -3 -1  0 -1 -4 ;
@@ -204,35 +223,48 @@ _blosum62 = np.matrix(
     0 -1 -1 -1 -2 -1 -1 -1 -1 -1 -1 -1 -1 -1 -2  0  0 -2 -1 -1 -1 -1 -1 -4 ;
    -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4  1 """)
 
-
 _compatible_aa = _blosum62 >= 2
 
 
-def residu_identical(edge1, edge2, compatible_aa = _compatible_aa):
-    """compatible_aa: matrix of similar amino-acids. ex: BLOSUM62 >= 2"""
-    # get amino-acids of each vertex in edge
-    e1_v1 = Bio.PDB.protein_letters_3to1[edge1.v1[3]]
-    e1_v2 = Bio.PDB.protein_letters_3to1[edge1.v2[3]]
-    e2_v1 = Bio.PDB.protein_letters_3to1[edge2.v1[3]]
-    e2_v2 = Bio.PDB.protein_letters_3to1[edge2.v2[3]]
-    
-    if compatible_aa[_blosum62_aa.index(e1_v1), _blosum62_aa.index(e2_v1)] \
-       and compatible_aa[_blosum62_aa.index(e1_v2), _blosum62_aa.index(e2_v2)]:
-        return True
-    if compatible_aa[_blosum62_aa.index(e1_v1), _blosum62_aa.index(e2_v2)] \
-       and compatible_aa[_blosum62_aa.index(e1_v2), _blosum62_aa.index(e2_v1)]:
-        edge2.reverse()
-        return True
+def aa_identical(aa1, aa2, compatible_aa = _compatible_aa):
+    """Using 3 letters amino acid names.
+    compatible_aa: matrix of similar amino-acids. ex: BLOSUM62 >= 2"""
+    a1 = Bio.PDB.protein_letters_3to1[aa1]
+    a2 = Bio.PDB.protein_letters_3to1[aa2]
+    return compatible_aa[_blosum62_aa.index(a1), _blosum62_aa.index(a2)]
 
+
+def aa_identical3(aa1, aa2, compatible_aa = _compatible_aa):
+    """Using 3 letters amino acid names.
+    compatible_aa: matrix of similar amino-acids. ex: BLOSUM62 >= 2"""
+    return compatible_aa[_blosum62_aa3.index(aa1), _blosum62_aa3.index(aa2)]
+
+
+#def align_edges(edge1, edge2, compatible_aa):
+def edges_aa_identical(edge1, edge2):
+    """compatible_aa: matrix of similar amino-acids. ex: BLOSUM62 >= 2"""
+    
+    if aa_identical(edge1.v1[3], edge2.v1[3]) and \
+       aa_identical(edge1.v2[3], edge2.v2[3]):
+        return True
+    if aa_identical(edge1.v1[3], edge2.v2[3]) and \
+       aa_identical(edge1.v2[3], edge2.v1[3]):
+        #edge2.reverse()   #v8
+        return True
     return False
 
 
-def weight_identical(edge1, edge2, DSS=0.6, DSE=0.75, Dq=35):
+def weight_identical(edge1, edge2, DSS=0.6, DSE=0.75, Dq=35,reverse=False):
     """edge1 and edge2 must have been aligned using residu_identical"""
+    if reverse :
+        edge2.reverse()
     deltaSS = abs(edge1.w.S1S2 - edge2.w.S1S2)
     deltaSE = np.array([abs(edge1.w.S1E2 - edge2.w.S1E2),
                         abs(edge1.w.S2E1 - edge2.w.S2E1)])
     deltaq = abs(edge1.w.q - edge2.w.q)
+    
+    #if reverse:
+    #    edge2.reverse()
 
     if deltaSS <= DSS and all(deltaSE <= DSE) and deltaq <= Dq:
         return True
@@ -240,38 +272,79 @@ def weight_identical(edge1, edge2, DSS=0.6, DSE=0.75, Dq=35):
     return False
 
 
+def edges_identical(edge1,edge2) :
+    #if aa_identical(edge1.v1[3], edge1.v2[3]) and aa_identical(edge2.v1[3], edge2.v2[3]):
+    #    if edges_aa_identical(edge1,edge2) and (weight_identical(edge1,edge2) or \
+    #        weight_identical(edge1, edge2, reverse=True)):
+    #        return True
+    #    else:
+    #        if edges_aa_identical(edge1,edge2) and weight_identical(edge1,edge2):
+    #            return True
+    if edges_aa_identical(edge1, edge2) and (weight_identical(edge1, edge2) or \
+                                            weight_identical(edge1, edge2)):
+        return True
+    return False
+
+
+def add_edges(common_edges,edge1,edge2):
+    if common_edges.has_key(edge1):
+        common_edges[edge1].append(edge2)
+    else :
+        common_edges[edge1] = [edge2]
+    
+
 def edges_comp(graph1, graph2):
     common_edges_g1 = {}
     common_edges_g2 = {}
+    
     for edge1 in graph1:
         for edge2 in graph2:
-            if residu_identical(edge1,edge2) and weight_identical(edge1,edge2):
-                if common_edges_g1.has_key(edge1) : 
-                    common_edges_g1[edge1].append(edge2)
-                else :
-                    common_edges_g1[edge1] = [ edge2 ]
-                if common_edges_g2.has_key(edge2) : 
-                    common_edges_g2[edge2].append(edge1)
-                else :
-                    common_edges_g2[edge2] = [ edge1 ]
-    return common_edges_g1, common_edges_g2
+            if edges_identical(edge1,edge2) : 
+                add_edges(common_edges_g1,edge1,edge2)
+                add_edges(common_edges_g2,edge2,edge1)
+                    
+    return (common_edges_g1, common_edges_g2)
 
 
 def graphlist2dict(graph):
-    """Convert graph:
-    from: list of edges
-    to:   dictionary of nodes"""
     edges_dict = {}
     for edge in graph:
         if not edges_dict.has_key(edge.v1):
             edges_dict[edge.v1] = set((edge.v2,))
         else:
             edges_dict[edge.v1].add(edge.v2)
-
         if not edges_dict.has_key(edge.v2):
             edges_dict[edge.v2] = set((edge.v1,))
         else:
             edges_dict[edge.v2].add(edge.v1)
+    return edges_dict
+
+
+def graphdict2list(graph_dict):
+    graph = []
+    visited = set()
+    for v1, v2s in graph_dict.iteritems():
+        if v1 not in visited:
+            visited.add(v1)
+            for v2 in v2s:
+                if v2 not in visited:
+                    visited.add(v2)
+                    graph.append(Edge(v1, v2))
+    return graph
+                
+
+def edgeList2residuEdgeDict(edgeList):
+    edges_dict = {}
+    def add_in_dict(edges_dict,node,edge):
+        if not edges_dict.has_key(node):
+            edges_dict[node] = set(edge)
+        else:
+            edges_dict[node].add(edge)
+        
+    for edge in graph:
+        add_in_dict(edges_dict,edge.v1,edge)
+        add_in_dict(edges_dict,edge.v2,edge)
+
     return edges_dict
 
 
@@ -288,55 +361,144 @@ def recursive_rm_node(edges_dict, node):
 
 
 def rm_monogamous(edges_dict):
-    """filter nodes not in a triangular pattern"""
     nodes = edges_dict.keys()
     for n in nodes:
         if edges_dict.has_key(n) and len(edges_dict[n]) < 2:
             recursive_rm_node(edges_dict,n)
 
 
-def bfs2(edges_dict, queue=None, visited=None):
-    """Breadth First Search iterator"""
-    if visited is None:
-        visited = set()
-    
-    if queue is None:
-        queue = [edges_dict.keys()[0]]
-    elif not queue:
-        raise StopIteration
-    
-    # visit neighbouring nodes
-    for n in edges_dict[queue.pop(0)]:
-        if n not in visited:
-            queue.append(n)
-            visited.add(n)
-            yield n
+def build_node_edges_dict(common_edges_list): # transfer common edges keys to dict{node:[edges]}
+    node_edges_dict = {}
 
-    # re-run bfs on the updated 'queue' and 'visited' lists 
-    for n in bfs2(edges_dict, queue, visited):
-            yield n
+    def add_edge_in_dict(node_edges_dict,node,edge):
+        if node_edges_dict.has_key(node) :
+            node_edges_dict[node].append(edge)
+        else :
+            node_edges_dict[node] = [ edge ]
     
+    for edge in common_edges_list :
+        add_edge_in_dict(node_edges_dict,edge.v1,edge)
+        add_edge_in_dict(node_edges_dict,edge.v2,edge)
+    return node_edges_dict
 
-def allsubgraphs(edges_dict):
-    subgraphs = []
-    nodes = set(edges_dict.keys())        
-    while len(nodes):
-        subgraph = []
-        start = list(nodes)[0]
-        for node in bfs2(edges_dict, queue=[start]):    
-            for connected_node in edges_dict[node]:
-                subgraph.append(Edge(node, connected_node))
-            nodes.remove(node)
-        subgraphs.append(subgraph)
-    return subgraphs
 
- 
-def build_subgraphs(common_edges):
-    edges_dict = graphlist2dict(common_edges)
+def common_edges_dict_filter(common_edges_dict, nodes_g1, nodes_g2): # remove common edges not in a triangle
+    new_common_edges_dict = {}
+    for e1,e2s in common_edges_dict.iteritems() :
+        if e1.v1 in nodes_g1 and e1.v2 in nodes_g1:
+            common_edges_2 = [edge for edge in e2s if (edge.v1 in nodes_g2) and (edge.v2 in nodes_g2)]
+            if common_edges_2:
+                new_common_edges_dict[e1] = common_edges_2
+    return new_common_edges_dict
+        
+
+def rm_monogamous_from_common_edges(common_edges_dict):
+    # filter nodes no clique >= 3
+    edges_dict = graphlist2dict(common_edges_dict.keys())
+    #print common_edges_dict.keys()
     rm_monogamous(edges_dict)
-    nodes = set(edges_dict.keys())
-    subgraphs = allsubgraphs(edges_dict)
-    return allsubgraphs(edges_dict) 
+    # debug_vertex_type(edges_dict)            
+    nodes = list(set(edges_dict.keys()))
+    return nodes
+
+
+def bfs(cg1,cg2,ce1,ce2,e1,e2,sg1,sg2,searched_edges_list):
+    """
+    common graphs 1 {node:[edges]},
+    common graphs 2 {node:[edges]},
+    common edges dict 1 {e1:[e2s]},
+    common edges dict 2 {e2:[e1s]},
+    edge 1, edge 2,
+    subgraph 1, subgraph 2
+    """
+    if e1 in searched_edges_list or e2 in searched_edges_list :
+        return
+    if e1 in sg1 or e2 in sg2 :
+        return
+    if not ce1.has_key(e1) or not ce2.has_key(e2):
+        return 
+    if e2 not in ce1[e1] or e1 not in ce2[e2] :
+        return
+    if not edges_identical(e1, e2):
+        return
+    
+    sg1.append(e1)
+    sg2.append(e2)
+    searched_edges_list.add(e1)
+    searched_edges_list.add(e2)
+    
+    for edge1 in cg1[e1.v1] :
+        for edge2 in cg2[e2.v1] :
+            bfs(cg1,cg2,ce1,ce2,edge1,edge2,sg1,sg2,searched_edges_list)
+        for edge2 in cg2[e2.v2] :
+            bfs(cg1,cg2,ce1,ce2,edge1,edge2,sg1,sg2,searched_edges_list)
+        
+    for edge1 in cg1[e1.v2] :
+        for edge2 in cg2[e2.v1] :
+            bfs(cg1,cg2,ce1,ce2,edge1,edge2,sg1,sg2,searched_edges_list)
+        for edge2 in cg2[e2.v2] :
+            bfs(cg1,cg2,ce1,ce2,edge1,edge2,sg1,sg2,searched_edges_list)
+        
+
+def find_subgraphs(common_edges_d1,common_edges_d2,cg1,cg2,sg_min_num = 30) :
+    subgraphs1 = []
+    subgraphs2 = []
+    searched_edges_list = set()
+    for e1,e2s in common_edges_d1.iteritems():
+        for e2 in e2s :
+            sg1 = []
+            sg2 = []
+            
+            bfs(cg1,cg2,common_edges_d1,common_edges_d2,e1,e2,sg1,sg2,searched_edges_list)
+            
+            if len(sg1) == len(sg2) and len(sg1) >= sg_min_num :
+                subgraphs1.append(sg1)
+                subgraphs2.append(sg2)
+    return (subgraphs1,subgraphs2)
+
+
+def build_subgraphs(graph1, graph2, sg_min_num=30):
+    print "  compare edges"
+    (common_edges_g1, common_edges_g2) = edges_comp(graph1, graph2)
+    print len(common_edges_g1.keys()),len(common_edges_g2.keys())
+    print "  rm monogamous from common edges g1"
+
+    common_nodes1 = rm_monogamous_from_common_edges(common_edges_g1)
+    #write_graph(common_edges_d1.keys(), "com1.tsv")
+
+    print "  rm monogamous from common edges g2"
+    
+    common_nodes2 = rm_monogamous_from_common_edges(common_edges_g2)
+    #write_graph(common_edges_d1.keys(), "com2.tsv")
+
+    common_edges_d1 = common_edges_dict_filter(common_edges_g1, common_nodes1, common_nodes2)
+    common_edges_d2 = common_edges_dict_filter(common_edges_g2, common_nodes2, common_nodes1)
+
+    print "  search subgraphs"
+
+    cg1 = build_node_edges_dict(common_edges_g1.keys()) 
+    cg2 = build_node_edges_dict(common_edges_g2.keys())
+    subs1, subs2 = find_subgraphs(common_edges_d1,common_edges_d2,cg1,cg2, sg_min_num)
+    return (subs1,subs2)
+    filtered_subs1, filtered_subs2 = [], []
+    for sg1, sg2 in zip(subs1, subs2):
+        sg1_dict = graphlist2dict(sg1)
+        sg2_dict = graphlist2dict(sg2)
+        rm_monogamous(sg1_dict)
+        rm_monogamous(sg2_dict)
+        for s1 in sg1_dict.keys():
+            if len(sg1_dict[s1]) == 0 : 
+                sg1_dict.pop(s1)
+        for s2 in sg2_dict.keys():
+            if len(sg2_dict[s2]) == 0 : 
+                sg2_dict.pop(s2)
+        nl1 = sg1_dict.keys()
+        nl2 = sg2_dict.keys()
+        filtered_subs1.append([ e for e in sg1 if e.v1 in nl1 and e.v2 in nl1 ])
+        filtered_subs2.append([ e for e in sg2 if e.v1 in nl2 and e.v2 in nl2 ])
+        #filtered_subs1.append(graphdict2list(sg1_dict))
+        #filtered_subs2.append(graphdict2list(sg2_dict))
+    return (filtered_subs1, filtered_subs2)
 
 
 def write_graph(graph, filename, append=False):
@@ -357,12 +519,14 @@ def build_graph_sub(pdb_fname, chain = None):
 
 
 if __name__ == '__main__':
+    print "load graph from pdb"
     graph1 = build_graph_sub('2CPK.pdb', chain='E')
     graph2 = build_graph_sub('3LCK.pdb', chain='A')
-    common_edges1, common_edges2 = edges_comp(graph1, graph2)
-    sgs1 = build_subgraphs(list(set(common_edges1)))
-    sgs2 = build_subgraphs(list(set(common_edges2)))
     
+    print "build subgraphs"
+    (sgs1,sgs2) = build_subgraphs(graph1, graph2)
+
+    print "write graph"
     for i, sg in enumerate(sgs1, start=1):
         write_graph(sg, "2CPK_graphs_%02i.tsv" % i)
     for i, sg in enumerate(sgs2, start=1):
