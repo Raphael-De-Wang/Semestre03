@@ -15,41 +15,61 @@ python gb2aa.py -gb seq_Staphy.gb -f seq_Staphy.fasta -o seq_Staphy_aa.fasta
 
 #### Q.B : Construction des familles de genes
 
-makeblastdb -in Escherichia_coli_prot.fasta -input_type 'fasta' -out 'EscherichiaColiDB' -dbtype 'prot'
-makeblastdb -in Salmonella_enterica_prot.fasta -input_type 'fasta' -out 'SalmonellaEntericaDB' -dbtype 'prot'
-makeblastdb -in Staphylococcus_aureus_prot.fasta -input_type 'fasta' -out 'StaphylococcusAureusDB' -dbtype 'prot'
+makeblastdb -in seq_EColi_aa.fasta -input_type 'fasta' -out 'EscherichiaColiDB' -dbtype 'prot'
+makeblastdb -in seq_Salm_aa.fasta -input_type 'fasta' -out 'SalmonellaEntericaDB' -dbtype 'prot'
+makeblastdb -in seq_Staphy_aa.fasta -input_type 'fasta' -out 'StaphylococcusAureusDB' -dbtype 'prot'
 
-blastp -db 'EscherichiaColiDB' -query Salmonella_enterica_prot.fasta  -out Sa_vs_Es.blastn -outfmt '6'
-blastp -db 'EscherichiaColiDB' -query Staphylococcus_aureus_prot.fasta  -out St_vs_Es.blastn -outfmt '6'
+blastp -db 'EscherichiaColiDB' -query seq_Salm_aa.fasta  -out Sa_vs_Es.blastn -outfmt '6'
+blastp -db 'EscherichiaColiDB' -query seq_Staphy_aa.fasta  -out St_vs_Es.blastn -outfmt '6'
 
-blastp -db 'SalmonellaEntericaDB' -query Escherichia_coli_prot.fasta  -out Es_vs_Sa.blastn -outfmt '6'
-blastp -db 'SalmonellaEntericaDB' -query Staphylococcus_aureus_prot.fasta  -out St_vs_Sa.blastn -outfmt '6'
+blastp -db 'SalmonellaEntericaDB' -query seq_EColi_aa.fasta  -out Es_vs_Sa.blastn -outfmt '6'
+blastp -db 'SalmonellaEntericaDB' -query seq_Staphy_aa.fasta  -out St_vs_Sa.blastn -outfmt '6'
 
-blastp -db 'StaphylococcusAureusDB' -query Escherichia_coli_prot.fasta  -out Es_vs_St.blastn -outfmt '6'
-blastp -db 'StaphylococcusAureusDB' -query Salmonella_enterica_prot.fasta  -out Sa_vs_St.blastn -outfmt '6'
+blastp -db 'StaphylococcusAureusDB' -query seq_EColi_aa.fasta  -out Es_vs_St.blastn -outfmt '6'
+blastp -db 'StaphylococcusAureusDB' -query seq_Salm_aa.fasta  -out Sa_vs_St.blastn -outfmt '6'
 
-#### python select_best_blast_hits.py ####
+#### Dresser la liste des Reciprocal Best Hits entre les 3 paires de génomes.
 
-# silix -i Escherichia_coli.fasta Sa_vs_Es.blastn
-# silix -i Escherichia_coli.fasta Es_vs_Sa.blastn
+iden=0
+evalue=1.0
 
-# silix -i Escherichia_coli.fasta St_vs_Es.blastn
-# silix -i Escherichia_coli.fasta Es_vs_St.blastn
+python select_best_blast_hits.py -f Sa_vs_Es.blastn -o Sa_vs_Es_best_hits.blastn -i $iden -e $evalue
+python select_best_blast_hits.py -f St_vs_Es.blastn -o St_vs_Es_best_hits.blastn -i $iden -e $evalue
 
-# silix -i Salmonella_enterica.fasta Sa_vs_Es.blastn
-# silix -i Salmonella_enterica.fasta Es_vs_Sa.blastn
+python select_best_blast_hits.py -f Es_vs_Sa.blastn -o Es_vs_Sa_best_hits.blastn -i $iden -e $evalue 
+python select_best_blast_hits.py -f St_vs_Sa.blastn -o St_vs_Sa_best_hits.blastn -i $iden -e $evalue 
 
-# silix -i Salmonella_enterica.fasta Sa_vs_St.blastn
-# silix -i Salmonella_enterica.fasta St_vs_Sa.blastn
+python select_best_blast_hits.py -f Es_vs_St.blastn -o Es_vs_St_best_hits.blastn -i $iden -e $evalue 
+python select_best_blast_hits.py -f Sa_vs_St.blastn -o Sa_vs_St_best_hits.blastn -i $iden -e $evalue 
 
-# silix -i Staphylococcus_aureus.fasta St_vs_Sa.blastn
-# silix -i Staphylococcus_aureus.fasta Sa_vs_St.blastn
 
-# silix -i Staphylococcus_aureus.fasta St_vs_Es.blastn
-# silix -i Staphylococcus_aureus.fasta Es_vs_St.blastn
+#### Dresser la liste des familles de gènes homologues partagés par ces 3 génomes.
+
+iden=0.35
+overlap=0.80
+
+silix -i $iden -r $overlap seq_EColi_aa.fasta Sa_vs_Es_best_hits.blastn > EColi_Sa_vs_Es_best_hits.silix
+silix -i $iden -r $overlap seq_EColi_aa.fasta Es_vs_Sa_best_hits.blastn > EColi_Es_vs_Sa_best_hits.silix
+
+silix -i $iden -r $overlap seq_EColi_aa.fasta St_vs_Es_best_hits.blastn > EColi_St_vs_Es_best_hits.silix
+silix -i $iden -r $overlap seq_EColi_aa.fasta Es_vs_St_best_hits.blastn > EColi_Es_vs_St_best_hits.silix
+
+silix -i $iden -r $overlap seq_Staphy_aa.fasta Sa_vs_Es_best_hits.blastn> Staphy_Sa_vs_Es_best_hits.silix
+silix -i $iden -r $overlap seq_Staphy_aa.fasta Es_vs_Sa_best_hits.blastn> Staphy_Es_vs_Sa_best_hits.silix
+
+silix -i $iden -r $overlap seq_Staphy_aa.fasta Sa_vs_St_best_hits.blastn> Staphy_Sa_vs_St_best_hits.silix
+silix -i $iden -r $overlap seq_Staphy_aa.fasta St_vs_Sa_best_hits.blastn> Staphy_St_vs_Sa_best_hits.silix
+
+silix -i $iden -r $overlap seq_Salm_aa.fasta St_vs_Sa_best_hits.blastn  > Salm_St_vs_Sa_best_hits.silix
+silix -i $iden -r $overlap seq_Salm_aa.fasta Sa_vs_St_best_hits.blastn  > Salm_Sa_vs_St_best_hits.silix
+
+silix -i $iden -r $overlap seq_Salm_aa.fasta St_vs_Es_best_hits.blastn  > Salm_St_vs_Es_best_hits.silix
+silix -i $iden -r $overlap seq_Salm_aa.fasta Es_vs_St_best_hits.blastn  > Salm_Es_vs_St_best_hits.silix
+
+# wc -l *silix
 
 #### Q.C : Analyse
 
-# python dist_hist.py
+python dist_hist.py
 
-# python venn_hist.py
+python venn_hist.py

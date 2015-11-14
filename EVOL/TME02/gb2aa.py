@@ -1,6 +1,7 @@
 #!env python
 
 import argparse
+import warnings
 
 from Bio import SeqIO
 from Bio.Seq import Seq
@@ -33,26 +34,32 @@ def load_features_to_list(fname, seq_list) :
         for f in gb_record.features:
             if cmp(f.type,"CDS") == 0 :
                 seqRec = f.extract(seq_list[ind])
-                rest   = len(seqRec) % 3
-                for i in range(rest+1) : 
-                    seq = seqRec.seq[i:len(seqRec.seq)-rest+i].translate()
+                seq = seqRec.seq.translate()
+                try :
                     db_xref_dict = { record.split(":")[0] : record.split(":")[1] for record in f.qualifiers["db_xref"] }
-                    sid = ""
-                    if db_xref_dict.has_key("GeneID") :
-                        sid = "GeneID:" + db_xref_dict["GeneID"]
-                    if db_xref_dict.has_key("GI") :
-                        sid += ( "|GI:" + db_xref_dict["GI"] )
-                    if db_xref_dict.has_key("protein_id") :
-                        sid += ( "|protein_id:" + db_xref_dict["protein_id"] )
-                    if len(sid) == 0 :
-                        raise ValueError("Missing Identity Infomation.")    
-                    if rest <> 0 :
-                        sid += "|.%d"%i
-                    snm = sid
-                    desc= "".join([ "|%s:%s"%(key,value) for key, value in db_xref_dict.iteritems() ])
-                    sr = SeqRecord(seq, id=sid, name=snm, description=desc)
+                except KeyError :
+                    db_xref_dict = {}
+                desc= "".join([ "|%s:%s"%(key,value) for key, value in db_xref_dict.iteritems() ])
+                sid = ""
+                if db_xref_dict.has_key("GeneID") :
+                    sid = "GeneID|" + db_xref_dict["GeneID"]
+                elif db_xref_dict.has_key("GI") :
+                    sid = ( "GI|" + db_xref_dict["GI"] )
+                elif db_xref_dict.has_key("protein_id") :
+                    sid = ( "protein_id|" + db_xref_dict["protein_id"] )
+                elif db_xref_dict.has_key("PSEUDO") :
+                    sid = ( "PSEUDO|" + db_xref_dict["PSEUDO"] )
+                elif f.qualifiers.has_key("locus_tag") :
+                    sid = ( "locus_tag|" + "".join(f.qualifiers["locus_tag"]) )
+                if len(sid) == 0 :
+                    warnings.warn("Feature without identity. [%s]"(fname))
+                    print f
+                    continue
+                snm = sid
+                sr = SeqRecord(seq, id=sid, name=snm, description=desc)
+                if f.qualifiers.has_key('db_xref') :
                     sr.dbxrefsc = f.qualifiers['db_xref']
-                    features.append(sr)
+                features.append(sr)
     return features
 
 

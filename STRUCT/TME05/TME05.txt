@@ -1,0 +1,32 @@
+In this practical you will learn how to select and use appropriate tools for predicting the
+structure of a protein. You will work with the Influenza A virus (A/chicken/Jilin/9/2004(H5N1)).
+Each group will choose one protein sequence to work with, among those reported at the end of
+this document. No complete structure exists today for these proteins. 
+
+How many residues are in the protein sequence you have chosen (query sequence)?
+
+Exercice - 1 Search the pdb database using NCBI's Blast server
+
+Go to http://www.ncbi.nlm.nih.gov/blast/ and perform a blastp search of the query sequence against the PDB database.
+
+1- What is the E-value of the top-scoring hit?
+
+
+
+2- Is the top-scoring hit statistically signicant (do you believe the result)?
+
+3- Which region of your sequence is aligned to the top-scoring template?
+a- How many residues are in that region?
+b- How many hits do you get with an E-value of less than 0.05?
+4- Which region(s) of the query sequence is aligned to a template with an E-value of less than 0.05?
+a- How many residues are in those regions?
+5- For each of the regions where you did not nd a signicant hit, try to go through the dierent
+steps of this exercise again. If you got no hits at all go to the next exercise.
+Exercice - 2 Use PSI-Blast to nd a hit
+If you did not nd a statistically signicant hit try PSI-Blast . Once again, go to http://www.
+ncbi.nlm.nih.gov/blast/ and click on "protein BLAST (blastp)". Under "Program Selection"
+choose the "PSI-BLAST (Position-Specic Iterated BLAST)" option. Paste in your sequence, leave
+all other options as they are, and press "BLAST" as before.
+1- How many hits with a E-value of less than 0.05 do you get?
+2- You can nd out the total number of hits by looking at the top of the results page. The
+web-based Blast has a limit on 500 hits that it shows. Is this limit reached?
