@@ -1,0 +1,34 @@
+*** Simulation 1 OK
+*** Simulation 2
+  Incorrect branch with length 5 for split [sp4,sp5] vs others
+    with events: inv(4) trans trans trans inv(2) 
+*** Simulation 3 OK
+*** Simulation 4 OK
+*** Simulation 5 OK
+*** Simulation 6
+  Incorrect branch with length 68 for split [sp7,sp8,sp9] vs others
+    with events: inv(3) dup(5) inv(5) trans inv(3) inv(2) inv(9) inv(6) inv(5) inv(7) dup(4) inv(4) del(2) inv(8) inv(6) inv(2) inv(5) trans inv(6) trans trans inv(11) inv(3) inv(11) inv(4) inv(5) trans inv(3) trans trans inv(3) dup(7) inv(8) inv(3) inv(4) inv(4) trans inv(7) inv(8) inv(2) inv(4) trans trans trans inv(9) inv(3) inv(8) inv(7) trans inv(5) inv(3) inv(4) trans trans inv(6) inv(3) trans trans del(3) trans trans del(4) inv(8) inv(3) trans del(1) trans inv(4) 
+*** Simulation 7 OK
+*** Simulation 8 OK
+*** Simulation 9 OK
+*** Simulation 10 OK
+Correct trees:  8 / 10  =  80 %
+Details:
+ - 8 trees with 0 incorrect split
+ - 2 trees with 1 incorrect split
+Total: 10 trees
+Fisher test inversion vs branch correctness p-value = 0.9046959 
+Fisher test translocation vs branch correctness p-value = 0.7970917 
+Fisher test duplication vs branch correctness p-value = 1 
+Fisher test deletion vs branch correctness p-value = 0.7866326 
+Fisher test fusion vs branch correctness p-value = 1 
+Fisher test fission vs branch correctness p-value = 1 
+Fisher test WGD vs branch correctness p-value = 1 
+Fisher test inversion vs branch correctness p-value = 0.5238095 
+Fisher test translocation vs branch correctness p-value = 0.5238095 
+Fisher test duplication vs branch correctness p-value = 1 
+Fisher test deletion vs branch correctness p-value = 1 
+Fisher test fusion vs branch correctness p-value = 1 
+Fisher test fission vs branch correctness p-value = 1 
+Fisher test WGD vs branch correctness p-value = 1 
+Finished post-analysis.
