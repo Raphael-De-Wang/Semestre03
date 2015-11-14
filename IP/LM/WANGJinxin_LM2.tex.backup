@@ -1,0 +1,33 @@
+\documentclass[11pt]{lettre}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+
+\begin{document}
+
+\begin{letter}{Karine \textsc{Clément}, Jean-Daniel \textsc{Zucker}, Nataliya \textsc{Sokolovska} \\ INSERM Team NutriOmics \\University Paris 6 \\ \\ A Paris, le 13 octobre 2015}
+\name{WANG Jinxin}
+\address{\textsc{WANG} Jinxin\\ 82 Boulevard Saint Germain\\ 75005 Paris }
+\telephone{06 68 04 86 20}
+\email{wangjinxin.fr@gmail.com}
+
+\def\concname{Object : } 
+\conc{candidature au stage de réseaux bayésiens pour la signature sur le microbiome}
+
+\opening{Madames, Monsieur,}
+
+Actuellement étudiant en Master 2 spécialité BioInformatiques et Modélisation (BIM) à l'Université de Pierre et Marie Curie. 
+Mon ambition est de faire de la recherche biomédical et integrer la médicine contemporaine  et la médicine traditionelle par 
+des models probiliste et des machine learning approches. Le stage de la recherche sur les maladies cardiométaboliques au sein
+de votre laboratoire me concerne parfaitement bien.  
+Je vous soumets ma candidature au stage au
+sein de votre laboratoire. PGM et le métagénomique sont très interessant pour moi, c'est le stage m'interesse le plus. 
+
+
+
+
+\closing{formule de salutations}
+
+\end{letter}
+\end{document} 
