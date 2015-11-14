@@ -1,0 +1,60 @@
+#!env python
+
+import sys
+import argparse
+import numpy as np
+import pylab as plt
+
+# Salmonella enterica -- CP
+# Escherichia coli -- NC
+# Staphylococcus aureus -- BX
+
+def load_fam_silix(fname):
+    fam_silix_dict = {}
+    handler = open(fname)
+    for line in handler :
+        (fam,pid) = line.split()
+        pid = pid.split('|')[1]
+        if fam_silix_dict.has_key(fam) :
+            fam_silix_dict[fam].append(pid)
+        else :
+            fam_silix_dict[fam] = [pid]
+    handler.close()
+    return fam_silix_dict
+
+def fam_paralog_statis(fam_silix_dict,genome=None):
+    fam_paralog_list = []
+    for fam,pids in fam_silix_dict.iteritems() :
+        icount = 0
+        if genome :
+            for p in pids :
+                if genome in p :
+                    icount += 1
+            if icount == 0 :
+                continue
+        else :
+            icount = len(pids)
+            
+        fam_paralog_list.append([fam,icount])
+    return fam_paralog_list
+
+def plot_hist(fam_paralog_list,fam,plotName=None):
+    x = [ int(cp) for cp in np.array(CP_paralog_list)[:,1] ]
+    bins = list(set(x))
+    width = 0.8
+    bins.sort()
+    fig = plt.figure(figsize=(20,10))
+    ax = fig.add_subplot(111)
+    n, bins, patches = ax.hist(x, bins, normed=1, histtype='bar', rwidth=width)
+    plt.xlabel('Number of paralogue')
+    plt.ylabel('Number of family')
+    plt.title('La distribution des genes en copies multiples dans le genome [%s]'%fam)
+    for x, y, s in zip(bins+width/2.5, n, [ str(sum(np.array(x) == i)) for i in bins]) :
+        plt.text(x,y+0.01,s)
+    plt.grid(True)
+    plt.show()
+
+fname = "all_fam.silix"
+fam_silix_dict = load_fam_silix(fname)
+CP_paralog_list = fam_paralog_statis(fam_silix_dict,genome="CP")
+plot_hist(CP_paralog_list,"Salmonella enterica")

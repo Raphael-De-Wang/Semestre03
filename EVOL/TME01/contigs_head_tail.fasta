@@ -1,0 +1,64 @@
+>contig1 head 40 contig1
+aaggccatctgcagaatagagttaatgaccactaaaacag
+>contig1 head 40compl <unknown description>
+ctgttttagtggtcattaactctattctgcagatggcctt
+>contig1 tail 40 contig1
+tctttaccttgcgtggattttcgtaaatatttggagaggc
+>contig1 tail 40compl <unknown description>
+gcctctccaaatatttacgaaaatccacgcaaggtaaaga
+>contig2 head 40 contig2
+tgcatcgcaatggtattgatttggaacaagataagtgggg
+>contig2 head 40compl <unknown description>
+ccccacttatcttgttccaaatcaataccattgcgatgca
+>contig2 tail 40 contig2
+aagacatttattacaataaaactttaacatttttgtcttt
+>contig2 tail 40compl <unknown description>
+aaagacaaaaatgttaaagttttattgtaataaatgtctt
+>contig3 head 40 contig3
+gagtttagcatatgtagtacacattacacgcactcctgcc
+>contig3 head 40compl <unknown description>
+ggcaggagtgcgtgtaatgtgtactacatatgctaaactc
+>contig3 tail 40 contig3
+ctgttttagtggtcattaactctattctgcagatggcctt
+>contig3 tail 40compl <unknown description>
+aaggccatctgcagaatagagttaatgaccactaaaacag
+>contig4 head 40 contig4
+attgttccgttacttttcaatgaagatgaatcagatgaaa
+>contig4 head 40compl <unknown description>
+tttcatctgattcatcttcattgaaaagtaacggaacaat
+>contig4 tail 40 contig4
+ctggaaggagagtttcacctaaaagtgaaaaagaagaatt
+>contig4 tail 40compl <unknown description>
+aattcttctttttcacttttaggtgaaactctccttccag
+>contig5 head 40 contig5
+ttatagatcgacttgatgttcttgaatttgccaaatagct
+>contig5 head 40compl <unknown description>
+agctatttggcaaattcaagaacatcaagtcgatctataa
+>contig5 tail 40 contig5
+gctgaggctatatgtccagtgtgctttactatctatatct
+>contig5 tail 40compl <unknown description>
+agatatagatagtaaagcacactggacatatagcctcagc
+>contig6 head 40 contig6
+gatttgttcgtggcgcatcaactacatctgcccaagtcct
+>contig6 head 40compl <unknown description>
+aggacttgggcagatgtagttgatgcgccacgaacaaatc
+>contig6 tail 40 contig6
+aacagccgcaacaacaacaacagccgcaacaacaacaaca
+>contig6 tail 40compl <unknown description>
+tgttgttgttgttgcggctgttgttgttgttgcggctgtt
+>contig7 head 40 contig7
+gagctatcaaaagaaggcaatatttttaaccactagagta
+>contig7 head 40compl <unknown description>
+tactctagtggttaaaaatattgccttcttttgatagctc
+>contig7 tail 40 contig7
+tcagtctcagactgtgtatagatctcgtgacaaagcttca
+>contig7 tail 40compl <unknown description>
+tgaagctttgtcacgagatctatacacagtctgagactga
+>contig8 head 40 contig8
+ttgcttatccacacgagtacagtcagcaacagcaacaaca
+>contig8 head 40compl <unknown description>
+tgttgttgctgttgctgactgtactcgtgtggataagcaa
+>contig8 tail 40 contig8
+cacgaatatcctctgtcgtcgtggcccggagtttccagcg
+>contig8 tail 40compl <unknown description>
+cgctggaaactccgggccacgacgacagaggatattcgtg
