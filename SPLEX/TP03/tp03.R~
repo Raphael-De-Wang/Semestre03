@@ -1,0 +1,50 @@
+#!env Rscript
+
+pdf(file=ifelse(FALSE, "tp03_Analyse_summary.pdf", "tp03_Analyse_summary.pdf"))
+attach(mtcars,warn.conflicts = FALSE)
+
+library(mclust)
+library(cluster)
+library(FactoMineR)
+
+loadData <- function(fname="obeses_temoins.txt") {
+    X <- as.matrix(t(read.table(fname)))
+    Y <- c(rep(1,25),rep(2,10))
+    return(list("X"=X,"Y"=Y))
+}
+
+EmForMixModel <- function(X,Y) {
+    msEst <- mstep(modelName = "VII", data = X[,1:1000], z = unmap(Y))
+    resEM <- em(modelName=msEst$modelName, data= X[,1:1000], parameters=msEst$parameters)
+    return(resEM)
+}
+
+visualizeData <- function(X) {
+    res.pca <- PCA(data$X,graph = F)
+    plot.PCA(res.pca)
+    res.hcpc.3Dmap <- HCPC(res.pca,graph=F)
+    plot(res.hcpc.3Dmap)
+}
+
+ModelBasedClusterAnalysis <- function (X) {
+    res <- Mclust(X)
+    grid.table(res$BIC)
+    plot(res$BIC,what="BIC")
+    plot(res$BIC,what="classification")
+    plot(res$BIC,what="uncertainty")
+    plot(res$BIC,what="density")
+}
+
+data <- loadData()
+
+resEM <- standardEM(data$X,data$Y)
+print(summary(resEM))
+
+
+
+
+
+
+
+dev.off()
+
