@@ -1,32 +1,19 @@
 - intro of conference
-打开眼界，学习到很多知识
-对参加conference非常感兴趣，开始主动寻找并参加更多
-
+很快乐参加这次会议感到很充实，很好的机会遇到了很多研究员，也打开了眼界，学到了很多课本上没有的知识，会议的内容很令人感兴趣，对参加会议也变得有兴趣了。以后会更加积极主动的参加各种。
+Je suis très satisfait de participer la conférence qui m'enrichir la connaissance de la microbiologie et qui m'ouvrir l'esprit de la cherche dans le domain de biogie. Grace à l'evenement, j'ai appris beaucoup de choses très intéresant mais ne pas nous apprendre à l'école. En plus, je deviens très intéresé par tous les conférences et je deviens plus motivé pour participer. 
 
 - intro of subjects
+Parmi tous les sujets, les deux dernieres sessions - ECOLOGY OF MICROBIAL COMMUNITIES, FUNCTIONAL ASPECTS OF MICROBIAL COMMUNITIES - m'intéressent les plus, maleureusement, nous avons eu un examens vendredi matin et je ne pouvais pas assité. 
 
-les subjects of 2eme day are so interesting. But could not assiste in the morning due to the examen.
-SESSION 3: ECOLOGY OF MICROBIAL COMMUNITIES
-SESSION 4: FUNCTIONAL ASPECTS OF MICROBIAL COMMUNITIES
+Je trouve que la microbiologie est très intéresant parce que certains microbes dus à l'association de certains microbes avec diverses maladies humaines, alors que de nombreux microbes sont également responsables de nombreux processus bénéfiques. L'écosystème que les être-vivants habitent est dominé par le microbiota et c'est très intéresant de les étudier. 
 
-Alors que certains craignent microbes dus à l'association de certains microbes avec diverses maladies humaines, de nombreux microbes sont également responsables de nombreux processus bénéfiques tels que la fermentation industrielle (par exemple la production d'alcool, vinaigre et les produits laitiers), la production d'antibiotiques et que les véhicules pour le clonage dans organismes plus complexes comme les plantes.
-
-
-- metagenomics
-
-La métagénomique est une discipline qui permet l'étude génomique des micro-organismes non cultivés. Plus rapide, moins cher technologies de séquençage et la possibilité de séquencer les microbes incultes échantillonnées directement à partir de leurs habitats sont en expansion et la transformation de notre vision du monde microbien. Distillant des informations significatives des millions de nouvelles séquences génomiques présente un sérieux défi aux bioinformaticiens. Dans microbes en culture, les données génomiques proviennent d'un seul clone, ce qui rend l'assemblage de séquences et d'annotation traitable. Dans la métagénomique, les données proviennent de communautés microbiennes hétérogènes, contenant parfois plus de 10.000 espèces, avec les données de séquence étant bruyant et partielle. De l'échantillonnage, à l'assemblage, à l'appel des gènes et prédiction de la fonction, la bioinformatique face à de nouvelles exigences dans l'interprétation des données de séquence volumineux, bruyants, et souvent partielles. Bien que la métagénomique est un nouveau venu à la science, les dernières années ont vu une explosion dans les méthodes de calcul appliquées à la recherche métagénomique-base. Il est donc pas dans le champ d'application de cet article pour fournir un examen exhaustif.
+La métagénomique est très originale parce qu'elle est une discipline qui permet l'étude génomique des micro-organismes non cultivés. Plus rapide, moins cher technologies de séquençage et la possibilité de séquencer les microbes incultes échantillonnées directement à partir de leurs habitats sont en expansion et la transformation de notre vision du monde microbien. Distillant des informations significatives des millions de nouvelles séquences génomiques présente un sérieux défi aux bioinformaticiens. Dans microbes en culture, les données génomiques proviennent d'un seul clone, ce qui rend l'assemblage de séquences et d'annotation traitable. Dans la métagénomique, les données proviennent de communautés microbiennes hétérogènes, contenant parfois plus de 10.000 espèces, avec les données de séquence étant bruyant et partielle. De l'échantillonnage, à l'assemblage, à l'appel des gènes et prédiction de la fonction, la bioinformatique face à de nouvelles exigences dans l'interprétation des données de séquence volumineux, bruyants, et souvent partielles. Bien que la métagénomique est un nouveau venu à la science, les dernières années ont vu une explosion dans les méthodes de calcul appliquées à la recherche métagénomique-base. Il est donc pas dans le champ d'application de cet article pour fournir un examen exhaustif.
 
 La métagénomique a le potentiel de faire progresser les connaissances dans un large éventail de domaines. Il peut également être appliquée pour résoudre les problèmes pratiques de la médecine, l'agriculture, la bioénergie et l'assainissement de l'environnement. 
 
-- choice
-Gut Microbiome & Human Health : Focus on Metabolic Diseases
+Parmi les sujet sur celle-la, j'aimerais résumer <<Gut Microbiome & Human Health : Focus on Metabolic Diseases>> : 
 
-- resume
-
-metabolic health
-
-we are not alone - microbe -> we may consider ourselves as an ecosystem of a host and microbes that following evolutionary selection share functions in a symbiotic fashion to meet biological needs
-
+Le sujet est sur la santé métabolique. Alors personne est isolé dans le monde, car chaque individu peut être considérer comme un écosystème d'un hôte et les microbes qui suit l'évolution des fonctions de et qui partagent de la façon de manière symbiotique pour répondre aux besoins biologiques
 
 microbiota in many organs as an asset 
 Defense - bacterial antagonism
