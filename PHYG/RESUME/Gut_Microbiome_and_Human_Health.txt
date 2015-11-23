@@ -1,13 +1,140 @@
 - intro of conference
+打开眼界，学习到很多知识
+对参加conference非常感兴趣，开始主动寻找并参加更多
+
+
+- intro of subjects
+
+les subjects of 2eme day are so interesting. But could not assiste in the morning due to the examen.
+SESSION 3: ECOLOGY OF MICROBIAL COMMUNITIES
+SESSION 4: FUNCTIONAL ASPECTS OF MICROBIAL COMMUNITIES
+
+Alors que certains craignent microbes dus à l'association de certains microbes avec diverses maladies humaines, de nombreux microbes sont également responsables de nombreux processus bénéfiques tels que la fermentation industrielle (par exemple la production d'alcool, vinaigre et les produits laitiers), la production d'antibiotiques et que les véhicules pour le clonage dans organismes plus complexes comme les plantes.
+
 
 - metagenomics
 
-- intro of 3 subject 
+La métagénomique est une discipline qui permet l'étude génomique des micro-organismes non cultivés. Plus rapide, moins cher technologies de séquençage et la possibilité de séquencer les microbes incultes échantillonnées directement à partir de leurs habitats sont en expansion et la transformation de notre vision du monde microbien. Distillant des informations significatives des millions de nouvelles séquences génomiques présente un sérieux défi aux bioinformaticiens. Dans microbes en culture, les données génomiques proviennent d'un seul clone, ce qui rend l'assemblage de séquences et d'annotation traitable. Dans la métagénomique, les données proviennent de communautés microbiennes hétérogènes, contenant parfois plus de 10.000 espèces, avec les données de séquence étant bruyant et partielle. De l'échantillonnage, à l'assemblage, à l'appel des gènes et prédiction de la fonction, la bioinformatique face à de nouvelles exigences dans l'interprétation des données de séquence volumineux, bruyants, et souvent partielles. Bien que la métagénomique est un nouveau venu à la science, les dernières années ont vu une explosion dans les méthodes de calcul appliquées à la recherche métagénomique-base. Il est donc pas dans le champ d'application de cet article pour fournir un examen exhaustif.
+
+La métagénomique a le potentiel de faire progresser les connaissances dans un large éventail de domaines. Il peut également être appliquée pour résoudre les problèmes pratiques de la médecine, l'agriculture, la bioénergie et l'assainissement de l'environnement. 
 
 - choice
+Gut Microbiome & Human Health : Focus on Metabolic Diseases
 
 - resume
 
+metabolic health
+
+we are not alone - microbe -> we may consider ourselves as an ecosystem of a host and microbes that following evolutionary selection share functions in a symbiotic fashion to meet biological needs
+
+
+microbiota in many organs as an asset 
+Defense - bacterial antagonism
+Priming of mucosal immunity
+Peristalsis
+Metabolism of dietary carcinogens
+Synthesis of B & K vitamins
+Epithelial nutrients
+Conversion of produgs
+Utilisation of indigestible
+
+microbiota in many organs as a liability
+Procarcinogens -> carcinogens
+Overgrowth syndromes
+Opportunism - Translocation
+Implicated in obesity, metabolic syndrome and coloredctal cancer, IBD and other disease
+
+Number of Phylotypes
+Human microbiome 4.9M gene >> Human genome 23,000 genes
+Qin et al Nature 2010, Nature 2012, Nielsen et al Nature techno 2014
+
+Canadian Microbiome initiative
+Metaca
+... projects produce diffe 
+
+balance between Health and disease
+
+Factors (genes, food, drug...) that shape the gut community
+
+Environmental factors -> karyome et gut microbiota
+
+Environmental & sccietal triggers | genetics & epigenetics -> gut microbiota
+infection, toxic, drugs, urbanisation, socio-economic status, sedentarity, diet, psychosocial, stress (Cardiogram Consortium - Nature Genetics 2013)
+
+3 main phylas -- Bacteriodetes, Actinobacteria, Firmicutes (J.Doré) 
+
+Enterotype : https://en.wikipedia.org/wiki/Enterotype
+
+3 enterotypes were identified in the individuals, each characterized by a different layout of dominant species : Bacteriodes, Prevotella, Ruminococcus(Arumugam et al., Nature 2011)
+
+
+these 3 enterotypes associate with food intake patterns 
+Bacteroides enterotype associates with a diet enriched in protein and animal fat as estimated from food frequency questionnaire
+Prevotella enterotype associates with a carbohydrate-enriched diet
+
+The human gut microbiota adapts to the diet consumed
+
+Major changes during 48 hours following shit from an animal-based diet to a vegetable-base diet and vice versa
+
+Animal-based diet : had a greater impact on the gut bacterial flora than the plant-based diet (Nature 505: 559-563, 2014)
+
+Need to understand what is going on since a big problem in develop country
+
+Cardiometabolic risk factors & Nutrition related diseases
+- traditional risk factors 
+    Age, Family history, Gender, blood pressure, cholesterol, DM, smoking
+- Metabolic sydrome
+    Abdominal obesity, hypertriglyceridemiz, HDL-cholesterol, blood pressure, glycemia or DM, 
+- Non-traditional risk factors
+    Genetic, Prothrombotic state, inflammatory profile
+
+? so can gut microbiota become a very important factor of disease in the future ? 
+
+modeling : germ-free mice -> gut microbiota transfer
+
+Different composition (16S) in obese animals : more firmicutes and les bacteroidetes
+
+put lin et fat mice, improve the obese mice because of the sharing microbiota communitiy
+
+Emerging concepts : Potential role for microbiota in the development of cardiometabolic disease
+
+Gut Microbiome and obesity : Diversity matters 
+
+MetaHit show 23% LGC 77% HGC
+Micro-Obese show 40% LGC and 60% HGC
+
+LGC associates with CMD risks : 
+    increased overall adiposity, increased insulin resistance(surrogates), increased dyslipidaemia +++, a more marked inflammatory phenotype(circulating and adipose tissue) -- (Le Chatelier et al. Nature 2013; Cotillard et al. Nature 2013)
+
+Pro-imflammatory ~ anti-inflammatory : diversity in gene number
+
+--> unpublished research : High frequency of low gene count in morbid obesity
+
+--> weight loss and improved CM risks(...)
+
+? we still don't know why the impact on the microbiota ecosystem influence l'individu
+
+Links with ecosystem : 
+-- suspects : does gut microbiota diveristy impacts on the interaction between some gut microbiota species and metabolic health ? 
+
+Main characteristics : 
+-
+-
+
+Health implications : 
+-
+-
+-
+-
+
+Akk is inversely associated with adiposity and fasting glycemia in mice
+
+
+
 - idea
+气候通过对细菌的影响对动物和植物的影响
+系统生物学的图模型
 
 - planning 
+在博士阶段钻研建模
+
