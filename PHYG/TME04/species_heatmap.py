@@ -131,8 +131,6 @@ def concat_to_dict(pfams, species_list, eli_pfams=[], eli_species=[], concat_dic
                     concat_dict[ks].name = cid
                     concat_dict[ks].description = cid
                     concat_count[ks] += 1
-                    if ks == "XENTR" and pfam == "PF00347" :
-                        print seqRec_sim_dict[k]
                     break
                 
         cmax = max(concat_count.iteritems(), key=operator.itemgetter(1))[0]
