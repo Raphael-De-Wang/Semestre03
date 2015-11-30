@@ -1,6 +1,9 @@
 #!env bash
 
+export LD_LIBRARY_PATH=~/GTL/lib/:LD_LIBRARY_PATH
+
 alias archaeopteryx="java -jar /users/nfs/Etu9/3404759/Workspace/toolkits/Archaeopteryx/forester_1038.jar"
+alias supertree="/users/nfs/Etu9/3404759/Workspace/Semestre03/PHYG/TME04/TME4bis/treePack/superTree/supertree"
 
 align () {
 
@@ -9,9 +12,15 @@ align () {
     rm -f RB.seq
 }
 
-alignMulti () {
+align_dir () {
     python Exercise04.py -if `ls $1/*` -of RB.seq
     clustalo -i RB.seq --seqtype=Protein --outfile $2 --outfmt=phy --force
+    rm -f RB.seq
+}
+
+align_pair () {
+    python Exercise04.py -if $1 $2 -of RB.seq
+    clustalo -i RB.seq --seqtype=Protein --outfile $3 --outfmt=phy --force
     rm -f RB.seq
 }
 
@@ -19,6 +28,7 @@ protdist () {
 
     phylip protdist <<EOF
 $1
+2
 Y
 EOF
 
@@ -30,18 +40,19 @@ neighbor () {
 
     phylip neighbor <<EOF
 $1
+2
 Y
 EOF
 
-    mv outfile NJ_outfile
-    mv outtree NJ_outtree
+    mv outfile $2.outfile
+    mv outtree $2.outtree
 
 }
 
 Q2 () {
     align TME4bis/RB_sequences/PF01599.12.seq aln-phylip
     protdist aln-phylip protDist_outfile
-    neighbor protDist_outfile
+    neighbor protDist_outfile NJ
     archaeopteryx NJ_outtree
     rm -f aln-phylip
 }
@@ -70,45 +81,61 @@ Q3 () {
     python species_heatmap.py -if $phylip_path/PF*phylip -is TME4bis/RB.list -of heatmap --filter 0.9 0.8 --no-heatmap --concat aln-phylip
 
     protdist aln-phylip protDist_outfile
-    neighbor protDist_outfile
+    neighbor protDist_outfile NJ
     archaeopteryx NJ_outtree
     rm -f aln-phylip
 }
 
 Q4 () {
-    pfam_path='TME4bis/RB_clades/'
-    # for pfam in `ls $pfam_path` ; do 
-    # alignMulti "$pfam_path$pfam" "$pfam_path$pfam/$pfam.phylip"
-    # done
+    pfam_path='TME4bis/RB_clades'
+    pfam_pair_path='TME4bis/RB_clades_pairs'
+    pfam_pair_concat_path='TME4bis/RB_clades_concat_tree'
+    pfam_pair_prodist_path='TME4bis/RB_clades_pairs_prodist'
+    pfam_pair_tree_path='TME4bis/RB_clades_pairs_tree'
 
-    pfam_list=(`ls $pfam_path`)
-    pfam_pair_path='TME4bis/RB_clades_pairs/'
-    pfam_pair_prodist_path='TME4bis/RB_clades_pairs_prodist/'
-    pfam_pair_tree_path='TME4bis/RB_clades_pairs_tree/'
+    mkdir -p $pfam_pair_path $pfam_pair_prodist_path $pfam_pair_tree_path $pfam_pair_concat_path
 
-    mkdir -p $pfam_pair_path $pfam_pair_prodist_path $pfam_pair_tree_path
-
-    for p1 in `seq 0 $(expr ${#pfam_list[@]} - 1)` ; do
-	for p2 in `seq $(expr $p1 + 1) $(expr ${#pfam_list[@]} - 1)` ; do
-	    ph1="$pfam_path${pfam_list[$p1]}/${pfam_list[$p1]}.phylip"
-	    ph2="$pfam_path${pfam_list[$p2]}/${pfam_list[$p2]}.phylip"
-	    pfam_pair_phylip="$pfam_pair_path${pfam_list[p1]}_${pfam_list[p2]}.phylip"
-	    pfam_pair_prodist="$pfam_pair_prodist_path${pfam_list[p1]}_${pfam_list[p2]}.prodist"
-	    pfam_pair_outfile="$pfam_pair_tree_path${pfam_list[p1]}_${pfam_list[p2]}.outfile"
-	    pfam_pair_outtree="$pfam_pair_tree_path${pfam_list[p1]}_${pfam_list[p2]}.outtree"
-	    # echo "python concat_phylip.py -if $ph1 $ph2 -of $pfam_pair_phylip"
-	    # echo "protdist $pfam_pair_phylip $pfam_pair_prodist"
-	    # echo "neighbor $pfam_pair_prodist && mv NJ_outfile $pfam_pair_tree"
-	    # python concat_phylip.py -if $ph1 $ph2 -of $pfam_pair_phylip
-	    # protdist $pfam_pair_phylip $pfam_pair_prodist
-	    # neighbor $pfam_pair_prodist && mv NJ_outfile $pfam_pair_outfile && mv NJ_outtree $pfam_pair_outtree 
-	    python concat_phylip.py -if $ph1 $ph2 -of $pfam_pair_phylip && protdist $pfam_pair_phylip $pfam_pair_prodist && neighbor $pfam_pair_prodist && mv NJ_outfile $pfam_pair_outfile && mv NJ_outtree $pfam_pair_outtree
+    for pfam in `ls $pfam_path` ; do
+	curr_path=`pwd`
+	pppath=$pfam_pair_path/$pfam
+	mkdir -p $pppath
+	cd $pfam_path/$pfam
+	clade_list=(`ls *seq`)
+	cd $curr_path
+	for c1 in `seq 0 $(expr ${#clade_list[@]} - 1)` ; do
+	    for c2 in `seq $(expr ${c1} + 1) $(expr ${#clade_list[@]} - 1)` ; do
+		clade_file1=$pfam_path/$pfam/${clade_list[$c1]}
+		clade_file2=$pfam_path/$pfam/${clade_list[$c2]}
+		clade1=(`echo ${clade_list[$c1]} | tr '.' ' '`)
+		clade2=(`echo ${clade_list[$c2]} | tr '.' ' '`)
+	        align_pair $clade_file1 $clade_file2 $pppath/${clade1[0]}_${clade2[0]}.phylip
+	    done
 	done
+	python concat_phylip.py -if $pppath/*phylip -of $pfam_pair_concat_path/$pfam.phylip && \
+	protdist $pfam_pair_concat_path/$pfam.phylip $pfam_pair_prodist_path/$pfam.prodist  && \ 
+	neighbor $pfam_pair_prodist_path/$pfam.prodist $pfam_pair_tree_path/$pfam
     done
 
+    python build_input_supertree.py -if $pfam_pair_tree_path/*outtree -of input.trees
+
+    supertree -n output.tree input.trees
+
+    archaeopteryx output.tree
+}
+
+Q4_clean () {
+    pfam_path='TME4bis/RB_clades'
+    pfam_pair_path='TME4bis/RB_clades_pairs/'
+    pfam_pair_tree_path='TME4bis/RB_clades_pairs_tree/'
+    pfam_pair_concat_path='TME4bis/RB_clades_concat_tree'
+    pfam_pair_prodist_path='TME4bis/RB_clades_pairs_prodist/'
+    rm -rf $pfam_path $pfam_pair_path  $pfam_pair_prodist_path $pfam_pair_tree_path $pfam_pair_concat_path
+    cd TME4bis
+    tar -xf RB_clades.tar.gz &> /dev/null 
 }
 
 # Q2 
 # Q3 
-Q4
+# Q4_clean
+# Q4
 
