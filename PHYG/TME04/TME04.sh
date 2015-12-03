@@ -2,8 +2,8 @@
 
 export LD_LIBRARY_PATH=~/GTL/lib/:LD_LIBRARY_PATH
 
-alias archaeopteryx="java -jar /users/nfs/Etu9/3404759/Workspace/toolkits/Archaeopteryx/forester_1038.jar"
-alias supertree="/users/nfs/Etu9/3404759/Workspace/Semestre03/PHYG/TME04/TME4bis/treePack/superTree/supertree"
+archaeopteryx="java -jar /users/nfs/Etu9/3404759/Workspace/toolkits/Archaeopteryx/forester_1038.jar"
+supertree="/users/nfs/Etu9/3404759/Workspace/Semestre03/PHYG/TME04/TME4bis/treePack/superTree/supertree"
 
 align () {
 
@@ -52,9 +52,9 @@ EOF
 Q2 () {
     align TME4bis/RB_sequences/PF01599.12.seq aln-phylip
     protdist aln-phylip protDist_outfile
-    neighbor protDist_outfile NJ
-    archaeopteryx NJ_outtree
+    neighbor protDist_outfile ex02_NJ
     rm -f aln-phylip
+    $archaeopteryx ex02_NJ_outtree
 }
 
 Q3 () {
@@ -70,20 +70,20 @@ Q3 () {
 
     export HTTP_PROXY="http://proxy:3128"
 
-    url=`python species_heatmap.py -if $phylip_path/PF*phylip -is TME4bis/RB.list -of heatmap`
+    # url=`python species_heatmap.py -if $phylip_path/PF*phylip -is TME4bis/RB.list -of heatmap`
 
-    firefox $url
+    # firefox $url
 
-    url=`python species_heatmap.py -if $phylip_path/PF*phylip -is TME4bis/RB.list -of heatmap --filter 0.9 0.8`
+    # url=`python species_heatmap.py -if $phylip_path/PF*phylip -is TME4bis/RB.list -of heatmap --filter 0.9 0.8`
 
-    firefox $url
+    # firefox $url
 
     python species_heatmap.py -if $phylip_path/PF*phylip -is TME4bis/RB.list -of heatmap --filter 0.9 0.8 --no-heatmap --concat aln-phylip
 
     protdist aln-phylip protDist_outfile
-    neighbor protDist_outfile NJ
-    archaeopteryx NJ_outtree
+    neighbor protDist_outfile ex03_NJ
     rm -f aln-phylip
+    $archaeopteryx ex03_NJ_outtree
 }
 
 Q4 () {
@@ -116,11 +116,11 @@ Q4 () {
 	neighbor $pfam_pair_prodist_path/$pfam.prodist $pfam_pair_tree_path/$pfam
     done
 
-    python build_input_supertree.py -if $pfam_pair_tree_path/*outtree -of input.trees
+    python build_input_supertree.py -if $pfam_pair_tree_path/*outtree -of ex04_input.trees
 
-    supertree -n output.tree input.trees
+    $supertree -n ex04_output.tree ex04_input.trees
 
-    archaeopteryx output.tree
+    $archaeopteryx ex04_output.tree
 }
 
 Q4_clean () {
@@ -135,7 +135,7 @@ Q4_clean () {
 }
 
 # Q2 
-# Q3 
+Q3 
 # Q4_clean
 # Q4
 

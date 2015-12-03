@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phyloxml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.phyloxml.org http://www.phyloxml.org/1.10/phyloxml.xsd" xmlns="http://www.phyloxml.org">
+<phylogeny rooted="false" rerootable="true">
+  <clade>
+    <clade>
+      <name>C4M8F6_ENT</name>
+      <branch_length>0.61447</branch_length>
+      <property ref="style:font_color" datatype="xsd:token" applies_to="node">#ffff00</property>
+    </clade>
+    <clade>
+      <branch_length>0.03253</branch_length>
+      <clade>
+        <branch_length>0.20927</branch_length>
+        <clade>
+          <name>A4HNS0_LEI</name>
+          <branch_length>0.08509</branch_length>
+          <property ref="style:font_color" datatype="xsd:token" applies_to="node">#ccffff</property>
+        </clade>
+        <clade>
+          <name>Q4DSQ4_TRY</name>
+          <branch_length>0.1248</branch_length>
+          <property ref="style:font_color" datatype="xsd:token" applies_to="node">#ccffff</property>
+        </clade>
+      </clade>
+      <clade>
+        <branch_length>0.12762</branch_length>
+        <clade>
+          <branch_length>0.11457</branch_length>
+          <clade>
+            <name>A7APC6_BAB</name>
+            <branch_length>0.27768</branch_length>
+            <property ref="style:font_color" datatype="xsd:token" applies_to="node">#9999ff</property>
+          </clade>
+          <clade>
+            <name>Q4N1I7_THE</name>
+            <branch_length>0.1819</branch_length>
+            <property ref="style:font_color" datatype="xsd:token" applies_to="node">#9999ff</property>
+          </clade>
+        </clade>
+        <clade>
+          <branch_length>0.04398</branch_length>
+          <clade>
+            <branch_length>0.04343</branch_length>
+            <clade>
+              <branch_length>0.00746</branch_length>
+              <clade>
+                <branch_length>0.04357</branch_length>
+                <clade>
+                  <name>O60036_CAN</name>
+                  <branch_length>0.1501</branch_length>
+                  <property ref="style:font_color" datatype="xsd:token" applies_to="node">#ff6666</property>
+                </clade>
+                <clade>
+                  <branch_length>0.11801</branch_length>
+                  <clade>
+                    <name>C5DSY8_ZYG</name>
+                    <branch_length>0.14923</branch_length>
+                    <property ref="style:font_color" datatype="xsd:token" applies_to="node">#ff6666</property>
+                  </clade>
+                  <clade>
+                    <name>P05759_YEA</name>
+                    <branch_length>0.11914</branch_length>
+                    <property ref="style:font_color" datatype="xsd:token" applies_to="node">#ff6666</property>
+                  </clade>
+                </clade>
+              </clade>
+              <clade>
+                <name>Q6C290_YAR</name>
+                <branch_length>0.18599</branch_length>
+                <property ref="style:font_color" datatype="xsd:token" applies_to="node">#ff6666</property>
+              </clade>
+            </clade>
+            <clade>
+              <name>P0C8R3_SCH</name>
+              <branch_length>0.15995</branch_length>
+              <property ref="style:font_color" datatype="xsd:token" applies_to="node">#ff6666</property>
+            </clade>
+          </clade>
+          <clade>
+            <branch_length>0.03527</branch_length>
+            <clade>
+              <branch_length>0.01969</branch_length>
+              <clade>
+                <branch_length>0.03649</branch_length>
+                <clade>
+                  <name>A0CT93_PAR</name>
+                  <branch_length>0.50609</branch_length>
+                  <property ref="style:font_color" datatype="xsd:token" applies_to="node">#9999ff</property>
+                </clade>
+                <clade>
+                  <branch_length>0.30424</branch_length>
+                  <clade>
+                    <name>Q8IM64_PLA</name>
+                    <branch_length>0.02046</branch_length>
+                    <property ref="style:font_color" datatype="xsd:token" applies_to="node">#9999ff</property>
+                  </clade>
+                  <clade>
+                    <branch_length>0.04143</branch_length>
+                    <clade>
+                      <branch_length>0.03359</branch_length>
+                      <clade>
+                        <name>Q4XE77_PLA</name>
+                        <branch_length>0.01759</branch_length>
+                        <property ref="style:font_color" datatype="xsd:token" applies_to="node">#9999ff</property>
+                      </clade>
+                      <clade>
+                        <branch_length>0.00651</branch_length>
+                        <clade>
+                          <name>Q4YSP0_PLA</name>
+                          <branch_length>0.0</branch_length>
+                          <property ref="style:font_color" datatype="xsd:token" applies_to="node">#9999ff</property>
+                        </clade>
+                        <clade>
+                          <name>Q7RT72_PLA</name>
+                          <branch_length>1.0E-5</branch_length>
+                          <property ref="style:font_color" datatype="xsd:token" applies_to="node">#9999ff</property>
+                        </clade>
+                      </clade>
+                    </clade>
+                    <clade>
+                      <branch_length>0.01565</branch_length>
+                      <clade>
+                        <name>B3LAY3_PLA</name>
+                        <branch_length>0.00847</branch_length>
+                        <property ref="style:font_color" datatype="xsd:token" applies_to="node">#9999ff</property>
+                      </clade>
+                      <clade>
+                        <name>A5K1J9_PLA</name>
+                        <branch_length>0.01576</branch_length>
+                        <property ref="style:font_color" datatype="xsd:token" applies_to="node">#9999ff</property>
+                      </clade>
+                    </clade>
+                  </clade>
+                </clade>
+              </clade>
+              <clade>
+                <branch_length>0.11444</branch_length>
+                <clade>
+                  <branch_length>0.01214</branch_length>
+                  <clade>
+                    <name>A2WPB5_ORY</name>
+                    <branch_length>0.05148</branch_length>
+                    <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ff00</property>
+                  </clade>
+                  <clade>
+                    <name>A5C8S5_VIT</name>
+                    <branch_length>0.04543</branch_length>
+                    <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ff00</property>
+                  </clade>
+                </clade>
+                <clade>
+                  <name>P59232_ARA</name>
+                  <branch_length>0.05011</branch_length>
+                  <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ff00</property>
+                </clade>
+              </clade>
+            </clade>
+            <clade>
+              <branch_length>0.04488</branch_length>
+              <clade>
+                <name>A1CKM6_ASP</name>
+                <branch_length>0.1885</branch_length>
+                <property ref="style:font_color" datatype="xsd:token" applies_to="node">#ff6666</property>
+              </clade>
+              <clade>
+                <branch_length>0.00979</branch_length>
+                <clade>
+                  <branch_length>0.04756</branch_length>
+                  <clade>
+                    <branch_length>0.09544</branch_length>
+                    <clade>
+                      <name>A8NSV0_BRU</name>
+                      <branch_length>0.06879</branch_length>
+                      <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ffff</property>
+                    </clade>
+                    <clade>
+                      <branch_length>0.12021</branch_length>
+                      <clade>
+                        <name>P37164_CAE</name>
+                        <branch_length>-0.00316</branch_length>
+                        <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ffff</property>
+                      </clade>
+                      <clade>
+                        <name>P37165_CAE</name>
+                        <branch_length>0.02557</branch_length>
+                        <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ffff</property>
+                      </clade>
+                    </clade>
+                  </clade>
+                  <clade>
+                    <name>P14797_DIC</name>
+                    <branch_length>0.19184</branch_length>
+                    <property ref="style:font_color" datatype="xsd:token" applies_to="node">#ffff00</property>
+                  </clade>
+                </clade>
+                <clade>
+                  <branch_length>0.0414</branch_length>
+                  <clade>
+                    <branch_length>0.08078</branch_length>
+                    <clade>
+                      <name>B4KHP5_DRO</name>
+                      <branch_length>0.00802</branch_length>
+                      <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ffff</property>
+                    </clade>
+                    <clade>
+                      <branch_length>0.01478</branch_length>
+                      <clade>
+                        <branch_length>0.0</branch_length>
+                        <clade>
+                          <name>B3N9P3_DRO</name>
+                          <branch_length>1.0E-5</branch_length>
+                          <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ffff</property>
+                        </clade>
+                        <clade>
+                          <name>B4HWN7_DRO</name>
+                          <branch_length>0.0</branch_length>
+                          <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ffff</property>
+                        </clade>
+                      </clade>
+                      <clade>
+                        <name>Q8IGR0_DRO</name>
+                        <branch_length>0.0</branch_length>
+                        <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ffff</property>
+                      </clade>
+                    </clade>
+                  </clade>
+                  <clade>
+                    <branch_length>0.03419</branch_length>
+                    <clade>
+                      <branch_length>0.02737</branch_length>
+                      <clade>
+                        <name>Q5D8K9_SCH</name>
+                        <branch_length>0.13916</branch_length>
+                        <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ffff</property>
+                      </clade>
+                      <clade>
+                        <name>A7RJ25_NEM</name>
+                        <branch_length>0.01686</branch_length>
+                        <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ffff</property>
+                      </clade>
+                    </clade>
+                    <clade>
+                      <branch_length>0.02982</branch_length>
+                      <clade>
+                        <name>P79781_CHI</name>
+                        <branch_length>0.0066</branch_length>
+                        <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ffff</property>
+                      </clade>
+                      <clade>
+                        <branch_length>0.01086</branch_length>
+                        <clade>
+                          <branch_length>0.03871</branch_length>
+                          <clade>
+                            <name>Q4RGY9_TET</name>
+                            <branch_length>0.0</branch_length>
+                            <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ffff</property>
+                          </clade>
+                          <clade>
+                            <name>Q7ZU62_DAN</name>
+                            <branch_length>1.0E-5</branch_length>
+                            <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ffff</property>
+                          </clade>
+                        </clade>
+                        <clade>
+                          <branch_length>0.00915</branch_length>
+                          <clade>
+                            <name>B2RDW1_HUM</name>
+                            <branch_length>-5.6E-4</branch_length>
+                            <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ffff</property>
+                          </clade>
+                          <clade>
+                            <branch_length>4.2E-4</branch_length>
+                            <clade>
+                              <name>Q28FM7_XEN</name>
+                              <branch_length>-4.2E-4</branch_length>
+                              <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ffff</property>
+                            </clade>
+                            <clade>
+                              <branch_length>4.2E-4</branch_length>
+                              <clade>
+                                <branch_length>0.02349</branch_length>
+                                <clade>
+                                  <name>Q6PED0_RAT</name>
+                                  <branch_length>0.0</branch_length>
+                                  <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ffff</property>
+                                </clade>
+                                <clade>
+                                  <name>P62983_MOU</name>
+                                  <branch_length>1.0E-5</branch_length>
+                                  <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ffff</property>
+                                </clade>
+                              </clade>
+                              <clade>
+                                <name>Q4R580_MAC</name>
+                                <branch_length>-4.2E-4</branch_length>
+                                <property ref="style:font_color" datatype="xsd:token" applies_to="node">#00ffff</property>
+                              </clade>
+                            </clade>
+                          </clade>
+                        </clade>
+                      </clade>
+                    </clade>
+                  </clade>
+                </clade>
+              </clade>
+            </clade>
+          </clade>
+        </clade>
+      </clade>
+    </clade>
+    <clade>
+      <name>A8BNY1_GIA</name>
+      <branch_length>0.78301</branch_length>
+      <property ref="style:font_color" datatype="xsd:token" applies_to="node">#cc0000</property>
+    </clade>
+  </clade>
+</phylogeny>
+</phyloxml>
