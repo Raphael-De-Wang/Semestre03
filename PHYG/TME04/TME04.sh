@@ -65,25 +65,25 @@ Q3 () {
     for f in TME4bis/RB_sequences/PF*seq ; do 
 	fname=(`echo $f | tr '/' ' '`)
 	pfam=(`echo ${fname[2]} | tr '.' ' '`)
-	align $f $phylip_path/${pfam[0]}.phylip
+	# align $f $phylip_path/${pfam[0]}.phylip
     done
 
     export HTTP_PROXY="http://proxy:3128"
 
-    # url=`python species_heatmap.py -if $phylip_path/PF*phylip -is TME4bis/RB.list -of heatmap`
+    url=`python species_heatmap.py -if $phylip_path/PF*phylip -is TME4bis/RB.list -of heatmap`
 
     # firefox $url
 
     # url=`python species_heatmap.py -if $phylip_path/PF*phylip -is TME4bis/RB.list -of heatmap --filter 0.9 0.8`
-
+    echo $url
     # firefox $url
 
-    python species_heatmap.py -if $phylip_path/PF*phylip -is TME4bis/RB.list -of heatmap --filter 0.9 0.8 --no-heatmap --concat aln-phylip
+    # python species_heatmap.py -if $phylip_path/PF*phylip -is TME4bis/RB.list -of heatmap --filter 0.9 0.8 --no-heatmap --concat aln-phylip
 
-    protdist aln-phylip protDist_outfile
-    neighbor protDist_outfile ex03_NJ
-    rm -f aln-phylip
-    $archaeopteryx ex03_NJ_outtree
+    # protdist aln-phylip protDist_outfile
+    # neighbor protDist_outfile ex03_NJ
+    # rm -f aln-phylip
+    # $archaeopteryx ex03_NJ_outtree
 }
 
 Q4 () {
