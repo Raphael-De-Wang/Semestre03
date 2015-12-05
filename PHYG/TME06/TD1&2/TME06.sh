@@ -10,14 +10,14 @@
 mga="programs/mga_linux_ia64"
 
 for genom in `ls genomes/*fna` ; do 
-    $mga $genom > ${genom/fna/mga}
+    echo "$mga $genom > ${genom/fna/mga}"
 done
 
 
 # Ex 03
 
 for genom in `ls genomes/*fna` ; do 
-    python mgaParser.py -g $genom -i ${genom/fna/mga} -o ${genom/fna/fasta} 
+    python mgaParser.py -g $genom -i ${genom/fna/mga} -o ${genom/fna/fasta}
 done
 
 # Ex 04
@@ -41,9 +41,9 @@ echo "pretending to read guide manual..."
 cat genomes/*fasta > all.fasta
 
 # Ex 09
-cd_hit="/programs/cdhit-master/cd-hit"
+cd_hit="programs/cdhit-master/cd-hit"
 echo "utlisation of cd-hit refer to page 4 to 6 in cd-hit_user_s_guide.pdf"
 $cd_hit -i all.fasta -o analysis.out -c 0.7
-python ex09.py -f all.fasta
+# python ex09.py -f all.fasta
 
 
