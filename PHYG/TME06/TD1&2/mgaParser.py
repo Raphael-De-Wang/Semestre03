@@ -58,7 +58,7 @@ def mga_parser(genomeFile,inputFile) :
     genome_list = [ seq_record for seq_record in SeqIO.parse(genomeFile, "fasta") ]
 
     gfname = genomeFile.split("/")[-1]
-    genom_name = gfname[:-12]
+    genom_name = gfname[:-12].replace(".","_")
     
     with open(inputFile) as handler :
         gene_records= [ mga_record(record_line) for record_line in handler if cmp(record_line[0],'#') <> 0 ]

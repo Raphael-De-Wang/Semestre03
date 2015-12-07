@@ -23,22 +23,14 @@ def load_fasta_file(fname):
         seqRec_list.append(seq_record)
     return seqRec_list
 
-def plot(prot_num_list, strain_name):
-    fig, ax = plt.subplots() 
-    plt.hist(prot_num_list)
-    plt.title("")
-    plt.xlabel("")
-    plt.ylabel("")
-
+def plot()
+    pass
         
 if __name__ == "__main__":
     
     args = interface_standard()
     
-    for fname in args.ifname :
-        prot_size_list = []
-        seq_list = load_fasta_file(fname)
-        for seq in seq_list :
-            prot_size_list.append(len(seq))
-        plot(prot_size_list, fname, args.pname)
+    # ????
+        
+    plot()
         
