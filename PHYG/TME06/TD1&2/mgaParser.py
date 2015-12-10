@@ -11,9 +11,10 @@ from Bio.Alphabet import generic_protein
 
 
 class mga_record (object) :
-    def __init__(self, record_line) :
+    def __init__(self, record_line,genome_ind) :
         self.record = record_line.split()
         try :
+            self.genome_ind= genome_ind
             self.gene_id   = self.record[0]
             self.start_pos = int(self.record[1])
             self.end_pos   = int(self.record[2])
@@ -55,20 +56,31 @@ def interface_standard():
 def mga_parser(genomeFile,inputFile) :
 
     gene_list = []
+    gene_records = []
     genome_list = [ seq_record for seq_record in SeqIO.parse(genomeFile, "fasta") ]
 
     gfname = genomeFile.split("/")[-1]
-    genom_name = gfname[:-12].replace(".","_")
-    
+    genom_name = gfname.split("_")[-2]
+    if len(genom_name) < 3 :
+        genom_name = gfname.split("_")[-3]
+        
     with open(inputFile) as handler :
-        gene_records= [ mga_record(record_line) for record_line in handler if cmp(record_line[0],'#') <> 0 ]
+        comment_count = 0
+        for record_line in handler :
+            if cmp(record_line[0],'#') == 0 :
+                comment_count += 1
+                continue
+            gene_records.append(mga_record(record_line,(comment_count/3)-1))
     
     for mga in gene_records :
-        seq = genome_list[mga.frame].seq
-        if mga.strand == "-" :
-            seq = seq.complement()
-        aa = seq[mga.start_pos:mga.end_pos+1].translate()
-        seq_rec = SeqRecord(aa, id=mga.gene_id+"_"+genom_name, name=mga.gene_id+"_"+genom_name, description="")
+        seq = genome_list[mga.genome_ind].seq
+        if mga.strand == "+" :
+            #seq = seq.reverse_complement()
+            aa = seq[mga.start_pos - 1 : mga.end_pos].translate()
+        else:
+            aa = seq[mga.start_pos - 1 : mga.end_pos].reverse_complement().translate()
+        seq_name = mga.gene_id + "_" + genom_name
+        seq_rec = SeqRecord(aa, id=seq_name, name=seq_name, description="")
         gene_list.append(seq_rec)
         
     return gene_list

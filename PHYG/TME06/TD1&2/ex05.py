@@ -30,8 +30,8 @@ def plot(prot_num_list, strain_name):
     fig, ax = plt.subplots()
     plt.hist(prot_num_list)
     plt.title(strain_name)
-    plt.xlabel("")
-    plt.ylabel("")
+    plt.xlabel("protein size")
+    plt.ylabel("distribution")
     
 
         
@@ -46,7 +46,7 @@ if __name__ == "__main__":
         seq_list = load_fasta_file(fname)
         for seq in seq_list :
             prot_size_list.append(len(seq))
-        plot(prot_size_list, fname)
+        plot(prot_size_list, fname.split("/")[-1][:-14])
         plot_handle.savefig()
         
     plot_handle.close()

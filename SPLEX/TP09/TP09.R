@@ -72,6 +72,12 @@ title("More General 2-Phase Restricted Maximization (RSMAX2) Hybrid Algorithms")
 # set.edge(x, from, to, check.cycles = TRUE, debug = FALSE)
 # drop.edge(x, from, to, debug = FALSE)
 
+strength.res.boot <- boot.strength(d[,1:20],algorithm="hc")
+
+for (ind in which(strength.res.boot$strength > 0.5)) {
+    set.arc(x, strength.res.boot$from[ind], strength.res.boot$to[ind])
+}
+
 dev.off()
 
 
