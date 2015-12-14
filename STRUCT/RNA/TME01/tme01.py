@@ -8,6 +8,8 @@ from ViennaWrappers import runRNAFold, runRNAEval
 
 Energy = { ("A","U") : -1, ("U","A") : -1, ("G","C") : -1, ("C","G") : -1, ("G","U") : -1, ("U","G") : -1 }
 
+# Energy = { ("A","U") : -2, ("U","A") : -2, ("G","C") : -3, ("C","G") : -3, ("G","U") : -1, ("U","G") : -1 }
+
 
 def displaySecStr(l,n):
     exp = ["."]*n
@@ -114,7 +116,7 @@ def fillMatrix_prog_dyna(r,theta=1) :
     return m.tolist()
 
     
-def traceback(tab):
+def traceback(tab,seq):
     ss = []
     def tb(i,j):
         # print tab[i,j],tab[i+1,j],tab[i,j-1],tab[i+1,j-1]
@@ -124,7 +126,7 @@ def traceback(tab):
             tb(i+1,j)
         elif tab[i,j] + 0. == tab[i,j-1] + 0. :
             tb(i,j-1)
-        elif tab[i,j] + 0. == tab[i+1,j-1] + -1. :
+        elif Energy.has_key((seq[i],seq[j])) and tab[i,j] + 0. == tab[i+1,j-1] + Energy[(seq[i],seq[j])] :
             ss.append((i,j))
             tb(i+1,j-1)
         else :
@@ -137,10 +139,11 @@ def traceback(tab):
 
 def nussinov(seq,theta=1,fillMatrix=fillMatrix_prog_dyna) :
     tab = fillMatrix(seq,theta=theta)
-    ss = traceback(np.array(tab))
+    ss = traceback(np.array(tab),seq)
     struct = displaySecStr(ss,len(seq))
     energy = runRNAEval(seq,struct)
     return (struct,energy)
+    # return (struct, 0)
 
 def test_suite():
 
@@ -171,8 +174,9 @@ def test_suite():
     print np.array(fillMatrix_prog_dyna("CCCCUUUUGGGGG",3))
 
     print "\n #### Nussinov Traceback test : #### "
-    print traceback(np.array(fillMatrix_prog_dyna("CCCCUUUUGGGGG",3)))
-    print displaySecStr(traceback(np.array(fillMatrix_prog_dyna("CCCCUUUUGGGGG",3))),13)
+    seq = "CCCCUUUUGGGGG"
+    print traceback(np.array(fillMatrix_prog_dyna(seq,3)),seq)
+    print displaySecStr(traceback(np.array(fillMatrix_prog_dyna(seq,3)),seq),13)
     print nussinov("CCCCUUUUGGGGG",theta=3)
 
 #### model discrepancies ####
@@ -193,7 +197,7 @@ def compareSS(s1,s2):
 
 
 def benchmark(s,sp):
-    return compareSS(s,sp)*1./len(s)
+    return (compareSS(s,sp)+1.)/(len(s)+1.)
 
 
 class faa(object):
@@ -201,7 +205,12 @@ class faa(object):
         self.record = record
         self.name   = record[0].split()[1]
         self.seq    = record[1]
-        self.stt   = record[2]
+        self.stt    = record[2]
+        (self.s,self.n) = parseSecStr(self.stt)
+        (self.nussinov_s,self.nussinov_e) = nussinov(self.seq)
+        (self.nussinov_sp,self.nussinov_n) = parseSecStr(self.nussinov_s)
+        (self.runRNAFold_s,self.runRNAFold_e) = runRNAFold(self.seq)
+        (self.runRNAFold_sp,self.runRNAFold_n) = parseSecStr(self.runRNAFold_s)
 
 
 def load_faa_file(fname):
@@ -212,19 +221,19 @@ def load_faa_file(fname):
             if line[0] == ">" and len(record) == 3 :
                 faa_list.append(faa(record))
                 record = []
-            record.append(line)
+            record.append(line.strip())
         faa_list.append(faa(record))
     return faa_list
 
 
 def benchmark_suite() :
     faa_list = load_faa_file("MathewsRNASorted.faa")
-    prec_list = []
+    nprec_list = []
+    rprec_list = []
     for faa in faa_list :
-        sq = nussinov(faa.seq)
-        (s,n)  = parseSecStr(faa.stt)
-        prec_list.append(benchmark(s,sp))
-    return mean(prec_list)
+        nprec_list.append(benchmark(faa.s,faa.nussinov_sp))
+        rprec_list.append(benchmark(faa.s,faa.runRNAFold_sp))
+    return (np.mean(nprec_list),np.mean(rprec_list))
 
 
 # Matthews correlation coefficient (MCC)
@@ -235,6 +244,5 @@ def mcc() :
 
                 
 if __name__ == "__main__" :
-    pass
-    test_suite()
-    
+    # test_suite()
+    print benchmark_suite()    
