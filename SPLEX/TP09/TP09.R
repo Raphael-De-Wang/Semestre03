@@ -29,7 +29,7 @@ for ( name in attributes(d)$names ) {
 hc.bn <- hc(d[,1:20])
 plot(hc.bn)
 title("Score-based structure learning algorithms : hill-climbing")
-print(modelstring(hc.bn))
+# print(modelstring(hc.bn))
 plot(boot.strength(d[,1:20],algorithm="hc"))
 # warnings()
 # print(arc.strength(hc.bn, d[1:20]))
@@ -37,7 +37,7 @@ plot(boot.strength(d[,1:20],algorithm="hc"))
 tabu.bn <- tabu(d[,1:20])
 plot(tabu.bn)
 title("Score-based structure learning algorithms : Tabu search (TABU)")
-print(modelstring(tabu.bn))
+# print(modelstring(tabu.bn))
 
 gs.bn <- gs(d[,1:20])
 plot(gs.bn)
@@ -72,11 +72,18 @@ title("More General 2-Phase Restricted Maximization (RSMAX2) Hybrid Algorithms")
 # set.edge(x, from, to, check.cycles = TRUE, debug = FALSE)
 # drop.edge(x, from, to, debug = FALSE)
 
+# bn.boot
+
 strength.res.boot <- boot.strength(d[,1:20],algorithm="hc")
 
-for (ind in which(strength.res.boot$strength > 0.5)) {
-    set.arc(x, strength.res.boot$from[ind], strength.res.boot$to[ind])
+plot(fast.iamb.bn)
+
+for (ind in which(strength.res.boot$strength < 0.9)) {
+    drop.arc(fast.iamb.bn, strength.res.boot$from[ind], strength.res.boot$to[ind])
+    # print(c(strength.res.boot$from[ind], strength.res.boot$to[ind]))
 }
+
+plot(fast.iamb.bn)
 
 dev.off()
 

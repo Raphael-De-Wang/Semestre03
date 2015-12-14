@@ -6,6 +6,9 @@ import numpy as np
 from ViennaWrappers import runRNAFold, runRNAEval
 
 
+Energy = { ("A","U") : -1, ("U","A") : -1, ("G","C") : -1, ("C","G") : -1, ("G","U") : -1, ("U","G") : -1 }
+
+
 def displaySecStr(l,n):
     exp = ["."]*n
     for left,right in l :
@@ -68,23 +71,10 @@ def countSecStr_prog_dyna(r, debug=False,theta=1) :
     return int(m[0,-1])
 
 
-def E(n) :
-    gi = {"A":0, "U":1, "G":2, "C":3}
-    g  = np.zeros((4,4))
-    g[gi["A"],gi["U"]] = -1
-    g[gi["U"],gi["A"]] = -1
-    g[gi["G"],gi["C"]] = -1
-    g[gi["C"],gi["G"]] = -1
-    g[gi["G"],gi["U"]] = -1
-    g[gi["U"],gi["G"]] = -1
-    return (g,gi)
-
-
 def fillMatrix_recursive(r,theta=1) :
     n = len(r)
     m = np.zeros((n,n))
     lm= np.zeros((n,n))
-    (g,gi) = E(n)
     def Nij(r,m,lm,i,j):
         def call(i,j) :
             if i >= j - 1 :
@@ -95,8 +85,8 @@ def fillMatrix_recursive(r,theta=1) :
             return m[i,j]
         comp = [ call(i+1,j) ]
         for k in range(i+theta+1,j+1) :
-            e = g[gi[r[i]],gi[r[k]]]
-            comp.append(e + call(i+1,k-1) + call(k+1,j))
+            if Energy.has_key((r[i],r[k])) :
+                comp.append(Energy[(r[i],r[k])] + call(i+1,k-1) + call(k+1,j))
         m[i,j] = min(comp)
         lm[i,j] += 1
         return m[i,j]
@@ -106,7 +96,6 @@ def fillMatrix_recursive(r,theta=1) :
 
 def fillMatrix_prog_dyna(r,theta=1) :
     n  = len(r)
-    (g,gi) = E(n)
     if n < 3 :
         return np.zeros((n,n)).tolist()
     m  = np.zeros((n,n))
@@ -114,7 +103,9 @@ def fillMatrix_prog_dyna(r,theta=1) :
         for j in range(i+2,n) :
             comp = [ m[i+1,j] ] 
             for k in range(i+theta+1,j+1) :
-                e = g[gi[r[i]],gi[r[k]]]
+                if not Energy.has_key((r[i],r[k])) :
+                    continue
+                e = Energy[(r[i],r[k])]
                 if k >= j :
                     comp.append(m[i+1,k-1] + e)
                 else :
@@ -201,16 +192,49 @@ def compareSS(s1,s2):
     return count
 
 
-def benchmark(known,structure_predict):
-    (seq_k,stru_k) = known
-    correct = []
-    for e in seq_k :
-        if e in structure_predict :
-            correct.append(e)
-    return correct
-    
-            
+def benchmark(s,sp):
+    return compareSS(s,sp)*1./len(s)
+
+
+class faa(object):
+    def __init__(self,record):
+        self.record = record
+        self.name   = record[0].split()[1]
+        self.seq    = record[1]
+        self.stt   = record[2]
+
+
+def load_faa_file(fname):
+    faa_list = []
+    with open(fname) as handler :
+        record = []
+        for line in handler :
+            if line[0] == ">" and len(record) == 3 :
+                faa_list.append(faa(record))
+                record = []
+            record.append(line)
+        faa_list.append(faa(record))
+    return faa_list
+
+
+def benchmark_suite() :
+    faa_list = load_faa_file("MathewsRNASorted.faa")
+    prec_list = []
+    for faa in faa_list :
+        sq = nussinov(faa.seq)
+        (s,n)  = parseSecStr(faa.stt)
+        prec_list.append(benchmark(s,sp))
+    return mean(prec_list)
+
+
+# Matthews correlation coefficient (MCC)
+# https://en.wikipedia.org/wiki/Precision_and_recall
+
+def mcc() :
+    pass
+
+                
 if __name__ == "__main__" :
     pass
-    # test_suite()
+    test_suite()
     
