@@ -27,6 +27,4 @@ FunNet(org="HS",up.frame=surGIDs,down.frame=sousGIDs,ref.list=NULL,
        hard.th=NA,soft.th=NA,topological=FALSE,coexp.method="spearman",
        keep.rdata=TRUE,zip=FALSE)
 
-
-
 dev.off()
